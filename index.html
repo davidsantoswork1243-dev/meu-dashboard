@@ -1,0 +1,2675 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<title>Prontidão da Frota — Editável</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --bg-page:#f4f2ea;
+    --bg-surface:#fffefb;
+    --bg-surface-2:#faf7ee;
+    --bg-track:#ece8db;
+    --ink:#1c1d16;
+    --ink-secondary:#54534c;
+    --ink-muted:#8b887d;
+    --border:#e3dfd1;
+    --border-strong:#d0cbb8;
+    --accent:#4f6b3a;
+    --accent-strong:#3a4f2a;
+    --accent-tint:#e6ecdc;
+    --accent-ink:#f6f8f0;
+    --good:#0ca30c;
+    --warning:#c67e00;
+    --critical:#c23f2f;
+    --danger:#c23f2f;
+    --danger-tint:#f6e6e3;
+    --shadow: 0 1px 2px rgba(28,29,22,0.04), 0 8px 24px -16px rgba(28,29,22,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --bg-page:#15160f;
+      --bg-surface:#1d1e16;
+      --bg-surface-2:#22231a;
+      --bg-track:#2b2c21;
+      --ink:#f1efe4;
+      --ink-secondary:#c6c3b5;
+      --ink-muted:#8f8c7d;
+      --border:#34352a;
+      --border-strong:#42432f;
+      --accent:#93b672;
+      --accent-strong:#aecb8e;
+      --accent-tint:rgba(147,182,114,0.16);
+      --accent-ink:#15160f;
+      --good:#3fbf4f;
+      --warning:#f0a72c;
+      --critical:#e8695a;
+      --danger:#e8695a;
+      --danger-tint:rgba(232,105,90,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -18px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg-page:#15160f;
+    --bg-surface:#1d1e16;
+    --bg-surface-2:#22231a;
+    --bg-track:#2b2c21;
+    --ink:#f1efe4;
+    --ink-secondary:#c6c3b5;
+    --ink-muted:#8f8c7d;
+    --border:#34352a;
+    --border-strong:#42432f;
+    --accent:#93b672;
+    --accent-strong:#aecb8e;
+    --accent-tint:rgba(147,182,114,0.16);
+    --accent-ink:#15160f;
+    --good:#3fbf4f;
+    --warning:#f0a72c;
+    --critical:#e8695a;
+    --danger:#e8695a;
+    --danger-tint:rgba(232,105,90,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -18px rgba(0,0,0,0.6);
+  }
+
+  /* tokens do controle de manutenção */
+  :root{
+    --critical-tint:#f6e3df;
+    --warning-tint:#f6ead0;
+    --on-solid:#fffefb;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --critical-tint:rgba(232,105,90,0.16);
+      --warning-tint:rgba(240,167,44,0.16);
+      --on-solid:#15160f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --critical-tint:rgba(232,105,90,0.16);
+    --warning-tint:rgba(240,167,44,0.16);
+    --on-solid:#15160f;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg-page);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:1180px; margin:0 auto; padding:28px 20px 64px; }
+  h1,h2,h3{
+    font-family:"Oswald", "IBM Plex Sans", sans-serif;
+    text-transform:uppercase; letter-spacing:0.02em; text-wrap:balance; margin:0;
+  }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-variant-numeric:tabular-nums; }
+
+  /* ---------- header ---------- */
+  header.top{
+    display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end;
+    gap:16px 24px; padding-bottom:20px; margin-bottom:16px; border-bottom:2px solid var(--ink);
+  }
+  .top-id{ display:flex; flex-direction:column; gap:6px; }
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace; font-size:11.5px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--accent-strong); font-weight:500;
+  }
+  h1{ font-size:clamp(24px,4vw,34px); font-weight:700; color:var(--ink); }
+  .subtitle{ color:var(--ink-secondary); font-size:14px; max-width:56ch; }
+  .top-meta{
+    display:flex; flex-direction:column; align-items:flex-end; gap:4px;
+    font-size:12.5px; color:var(--ink-muted); text-align:right;
+  }
+  .top-meta .big{
+    font-family:"IBM Plex Mono", monospace; font-size:26px; color:var(--ink); font-weight:500; line-height:1;
+  }
+
+  /* ---------- sync status bar ---------- */
+  .sync-bar{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    font-size:12.5px; color:var(--ink-secondary); margin-bottom:22px;
+    padding:9px 14px; border-radius:8px; background:var(--bg-surface-2); border:1px solid var(--border);
+  }
+  .sync-bar .dotstate{ display:inline-flex; align-items:center; gap:7px; }
+  .sync-dot{ width:8px; height:8px; border-radius:50%; background:var(--ink-muted); flex:none; }
+  .sync-dot.live{ background:var(--good); box-shadow:0 0 0 3px color-mix(in oklab, var(--good) 25%, transparent); }
+  .sync-dot.readonly{ background:var(--warning); }
+
+  /* ---------- KPI tiles ---------- */
+  .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:28px; }
+  .kpi{
+    background:var(--bg-surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px 16px 14px; box-shadow:var(--shadow); cursor:pointer;
+    border-left:4px solid var(--border-strong); transition:transform .12s ease, border-color .12s ease;
+    text-align:left; display:flex; flex-direction:column; gap:6px;
+  }
+  .kpi:hover{ transform:translateY(-2px); }
+  .kpi.active{ outline:2px solid var(--accent); outline-offset:-1px; }
+  .kpi[data-k="good"]{ border-left-color:var(--good); }
+  .kpi[data-k="critical"]{ border-left-color:var(--critical); }
+  .kpi[data-k="warning"]{ border-left-color:var(--warning); }
+  .kpi[data-k="total"]{ border-left-color:var(--accent); }
+  .kpi .label{ font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-muted); font-weight:500; }
+  .kpi .value{ font-family:"IBM Plex Mono", monospace; font-size:32px; font-weight:500; color:var(--ink); line-height:1; }
+  .kpi .pct{ font-size:13px; color:var(--ink-secondary); }
+
+  /* ---------- panels / grid ---------- */
+  .grid-2{ display:grid; grid-template-columns:1.3fr 1fr; gap:14px; margin-bottom:14px; align-items:stretch; }
+  .panel{ background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:18px 20px 20px; box-shadow:var(--shadow); }
+  .panel h2{ font-size:15px; font-weight:600; color:var(--ink); }
+  .panel .hint{ font-size:12px; color:var(--ink-muted); margin-top:3px; margin-bottom:14px; }
+
+  .cat-row{ margin-bottom:14px; }
+  .cat-row:last-child{ margin-bottom:0; }
+  .cat-row .cat-head{ display:flex; justify-content:space-between; align-items:baseline; font-size:13px; margin-bottom:6px; }
+  .cat-row .cat-head .name{ font-weight:600; color:var(--ink); }
+  .cat-row .cat-head .n{ color:var(--ink-muted); font-family:"IBM Plex Mono",monospace; font-size:12px;}
+  .stack{ display:flex; height:22px; border-radius:5px; overflow:hidden; background:var(--bg-track); gap:2px; }
+  .stack .seg{ height:100%; min-width:2px; }
+  .stack .seg.good{ background:var(--good); }
+  .stack .seg.critical{ background:var(--critical); }
+  .stack .seg.warning{ background:var(--warning); }
+  .stack .seg.outra{ background:var(--ink-muted); }
+
+  .legend{ display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); font-size:12.5px; color:var(--ink-secondary); }
+  .legend .item{ display:flex; align-items:center; gap:6px; }
+  .dot{ width:9px; height:9px; border-radius:50%; flex:none; }
+  .dot.good{ background:var(--good); }
+  .dot.critical{ background:var(--critical); }
+  .dot.warning{ background:var(--warning); }
+  .dot.outra{ background:var(--ink-muted); }
+
+  .cause-bar{ display:flex; align-items:center; gap:10px; margin-bottom:9px; cursor:pointer; }
+  .cause-bar .cname{ width:132px; flex:none; font-size:12.5px; color:var(--ink-secondary); }
+  .cause-bar .track{ flex:1; height:16px; background:var(--bg-track); border-radius:4px; overflow:hidden; }
+  .cause-bar .fill{ height:100%; background:var(--accent); border-radius:4px; transition:filter .12s; }
+  .cause-bar:hover .fill{ filter:brightness(1.12); }
+  .cause-bar .cval{ width:26px; flex:none; text-align:right; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink); }
+  .cause-bar.active .cname{ color:var(--accent-strong); font-weight:600; }
+
+  .loc-hero{ display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  .loc-hero .big{ font-family:"IBM Plex Mono",monospace; font-size:30px; color:var(--ink); }
+  .loc-hero .txt{ font-size:13px; color:var(--ink-secondary); }
+  .loc-list{ display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; }
+  .loc-chip{ font-size:12px; padding:5px 10px; border-radius:999px; background:var(--bg-surface-2); border:1px solid var(--border); color:var(--ink-secondary); cursor:pointer; }
+  .loc-chip .n{ font-family:"IBM Plex Mono",monospace; color:var(--ink); margin-left:4px; }
+  .loc-chip.active{ border-color:var(--accent); color:var(--accent-strong); background:var(--accent-tint); }
+
+  /* ---------- filter / table ---------- */
+  .table-panel{ padding:18px 18px 8px; }
+  .head-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .hide-hint{ font-size:12px; color:var(--ink-muted); }
+  #frotaBody[hidden], #maintBody[hidden]{ display:none; }
+  .table-head-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .filters{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px; }
+  .search{ flex:1 1 220px; display:flex; align-items:center; gap:8px; background:var(--bg-surface-2); border:1px solid var(--border); border-radius:8px; padding:8px 12px; }
+  .search input{ border:0; background:transparent; outline:none; width:100%; font:inherit; color:var(--ink); font-size:13.5px; }
+  .search svg{ flex:none; opacity:.55; }
+  .chipgroup{ display:flex; gap:6px; flex-wrap:wrap; }
+  .chip{ font-size:12.5px; padding:6px 12px; border-radius:999px; border:1px solid var(--border); background:var(--bg-surface-2); color:var(--ink-secondary); cursor:pointer; white-space:nowrap; }
+  .chip.active{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:500; }
+  select#sortSel{ font:inherit; font-size:12.5px; padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:var(--bg-surface-2); color:var(--ink); }
+  .clear-btn{ font-size:12.5px; color:var(--accent-strong); background:none; border:0; cursor:pointer; text-decoration:underline; padding:6px 4px; }
+  .count-line{ font-size:12.5px; color:var(--ink-muted); margin-bottom:10px; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  thead th{ text-align:left; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-muted); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--border-strong); }
+  tbody tr.row{ border-bottom:1px solid var(--border); cursor:pointer; }
+  tbody tr.row:hover{ background:var(--bg-surface-2); }
+  tbody tr.row.is-editing{ background:var(--accent-tint); }
+  tbody td{ padding:10px 10px; vertical-align:top; }
+  td.item .nom{ color:var(--ink); font-weight:500; }
+  td.item .mm{ color:var(--ink-muted); font-size:12px; }
+  td.cat-badge span{ font-size:11px; padding:3px 8px; border-radius:5px; background:var(--bg-surface-2); border:1px solid var(--border); color:var(--ink-secondary); white-space:nowrap; }
+  .pill{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--ink); white-space:nowrap; }
+  .loc-cell{ color:var(--ink-secondary); font-size:12.5px; }
+  .expand-icon{ color:var(--ink-muted); font-size:11px; }
+  tr.detail td{ padding:0 10px 14px 10px; border-bottom:1px solid var(--border); background:var(--bg-surface-2); }
+  .detail-box{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:12px 14px; background:var(--bg-surface); border:1px solid var(--border); border-radius:8px; font-size:12.5px; line-height:1.5; }
+  .detail-box .col b{ display:block; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-muted); margin-bottom:4px; }
+  .detail-box .col p{ margin:0; color:var(--ink-secondary); white-space:pre-wrap; word-break:break-word; }
+  .detail-actions{ display:flex; gap:8px; margin-top:12px; }
+  .empty-row td{ text-align:center; padding:32px 10px; color:var(--ink-muted); font-size:13px; }
+
+  /* ---------- forms (edit / add) ---------- */
+  .form-box{ padding:14px; background:var(--bg-surface); border:1px solid var(--border-strong); border-radius:8px; }
+  .form-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px 12px; margin-bottom:10px; }
+  .form-grid .full{ grid-column:1 / -1; }
+  .field{ display:flex; flex-direction:column; gap:4px; }
+  .field label{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-muted); font-weight:600; }
+  .field input, .field select, .field textarea{
+    font:inherit; font-size:13px; color:var(--ink); background:var(--bg-surface-2);
+    border:1px solid var(--border); border-radius:6px; padding:7px 9px; width:100%;
+  }
+  .field textarea{ resize:vertical; min-height:52px; font-family:inherit; }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:2px solid var(--accent); outline-offset:0; border-color:var(--accent); }
+  .form-actions{ display:flex; gap:8px; justify-content:flex-end; align-items:center; }
+  .form-msg{ font-size:12px; color:var(--ink-muted); margin-right:auto; }
+  .form-msg.err{ color:var(--danger); }
+  .confirm-box{
+    display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center; justify-content:space-between;
+    background:var(--danger-tint); border:1px solid var(--danger); border-radius:7px;
+    padding:10px 12px; font-size:12.5px; color:var(--ink);
+  }
+  .confirm-box b{ color:var(--danger); }
+  .confirm-box-btns{ display:flex; gap:8px; flex:none; }
+
+  .btn{
+    font:inherit; font-size:12.5px; font-weight:500; padding:8px 14px; border-radius:7px;
+    border:1px solid var(--border-strong); background:var(--bg-surface-2); color:var(--ink);
+    cursor:pointer; white-space:nowrap;
+  }
+  .btn:hover{ filter:brightness(1.04); }
+  .btn:disabled{ opacity:.55; cursor:default; }
+  .btn-primary{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .btn-danger{ background:var(--danger-tint); border-color:var(--danger); color:var(--danger); }
+  .btn-ghost{ background:transparent; border-color:transparent; text-decoration:underline; padding:8px 4px; }
+  .add-toggle{ display:flex; align-items:center; gap:6px; }
+
+  /* ---------- navegação / alertas ---------- */
+  .subnav{ display:flex; flex-wrap:wrap; gap:8px; margin:-8px 0 20px; }
+  .subnav button{
+    font:inherit; font-size:13px; font-weight:500; padding:7px 14px; border-radius:999px;
+    border:1px solid var(--border-strong); background:var(--bg-surface); color:var(--ink); cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .subnav button:hover{ background:var(--bg-surface-2); }
+  .subnav .count{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; min-width:20px; text-align:center;
+    padding:1px 6px; border-radius:999px; background:var(--critical); color:var(--on-solid);
+  }
+  .subnav .count.warn{ background:var(--warning); color:#15160f; }
+
+  .alert-bar{
+    display:none; align-items:center; flex-wrap:wrap; gap:10px 16px;
+    padding:12px 16px; border-radius:10px; margin-bottom:20px; border:1px solid var(--critical);
+    background:var(--critical-tint); color:var(--ink);
+  }
+  .alert-bar.show{ display:flex; }
+  .alert-bar.sev-atencao{ border-color:var(--warning); background:var(--warning-tint); }
+  .alert-bar .ab-title{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:14px; }
+  .alert-bar .ab-title svg{ color:var(--critical); flex:none; }
+  .alert-bar.sev-atencao .ab-title svg{ color:var(--warning); }
+  .alert-bar .ab-chips{ display:flex; flex-wrap:wrap; gap:8px; flex:1 1 auto; }
+  .alert-bar .ab-chip{ font-size:12.5px; padding:4px 10px; border-radius:999px; background:var(--bg-surface); border:1px solid var(--border-strong); color:var(--ink); }
+  .alert-bar .ab-chip b{ font-family:"IBM Plex Mono",monospace; font-weight:500; margin-right:4px; }
+
+  /* ---------- selos de alerta ---------- */
+  .mbadge{
+    display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; line-height:1.3;
+    padding:3px 9px; border-radius:6px; border:1px solid var(--border-strong); color:var(--ink);
+    background:var(--bg-surface-2); white-space:nowrap;
+  }
+  .mbadge svg{ flex:none; }
+  .nrow .mbadge{ max-width:100%; white-space:normal; }
+  .mbadge.lv-vencida{ background:var(--critical); border-color:var(--critical); color:var(--on-solid); font-weight:600; }
+  .mbadge.lv-urgente{ background:var(--critical-tint); border-color:var(--critical); }
+  .mbadge.lv-urgente svg{ color:var(--critical); }
+  .mbadge.lv-atencao{ background:var(--warning-tint); border-color:var(--warning); }
+  .mbadge.lv-atencao svg{ color:var(--warning); }
+  .mbadge.lv-ok svg{ color:var(--good); }
+  .mbadge.sm{ font-size:11px; padding:2px 7px; margin-top:4px; }
+
+  /* ---------- seção manutenção ---------- */
+  .kpis.compact{ margin-bottom:16px; grid-template-columns:repeat(5,1fr); }
+  .kpis.compact .kpi{ padding:12px 14px 10px; }
+  .kpis.compact .kpi .value{ font-size:26px; }
+  .kpis.compact .kpi.active{ outline:2px solid var(--accent); }
+  .mtabs{ display:flex; gap:4px; border-bottom:1px solid var(--border-strong); margin-bottom:14px; overflow-x:auto; }
+  .mtabs button{ flex:none; }
+  @media (max-width:480px){ .mtabs button{ padding:9px 10px; font-size:12.5px; } }
+  .mtabs button{
+    font:inherit; font-size:13px; font-weight:500; padding:9px 16px; border:0; background:transparent; color:var(--ink-secondary);
+    cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-1px;
+  }
+  .mtabs button.active{ color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
+  .toast{
+    display:none; margin-bottom:12px; padding:9px 14px; border-radius:8px; font-size:13px;
+    background:var(--accent-tint); border:1px solid var(--accent); color:var(--ink);
+  }
+  .toast.show{ display:block; }
+  .m-form{ margin-bottom:16px; }
+  .m-form .form-grid{ grid-template-columns:repeat(3,1fr); }
+  .m-form h3{ font-size:14px; margin-bottom:10px; }
+  .qchips{ display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
+  .qchips button{ font:inherit; font-size:11.5px; padding:3px 9px; border-radius:999px; border:1px solid var(--border-strong); background:var(--bg-surface); color:var(--ink-secondary); cursor:pointer; }
+  .qchips button:hover{ background:var(--accent-tint); }
+
+  .nhead, .nrow{
+    display:grid; grid-template-columns:minmax(0,2.2fr) minmax(0,2fr) 124px 190px 150px; gap:10px 14px; align-items:center;
+  }
+  .nhead{ padding:6px 8px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); font-weight:600; border-bottom:1px solid var(--border-strong); }
+  .nrow{ padding:10px 8px; border-bottom:1px solid var(--border); font-size:13px; }
+  .nrow:hover{ background:var(--bg-surface-2); }
+  .nrow .n-nom{ color:var(--ink); font-weight:500; }
+  .nrow .n-sub{ color:var(--ink-muted); font-size:12px; }
+  .nrow .n-last{ color:var(--ink-secondary); font-size:12.5px; }
+  .nrow .n-last .clamp{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .nrow .n-date{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink); }
+  .nlist{ max-height:520px; overflow-y:auto; }
+  .m-empty{ padding:28px 14px; text-align:center; color:var(--ink-muted); font-size:13px; line-height:1.55; border:1px dashed var(--border-strong); border-radius:8px; }
+  .m-empty b{ color:var(--ink-secondary); }
+
+  .mh{ padding:12px 4px; border-bottom:1px solid var(--border); }
+  .mh-top{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; font-size:13px; }
+  .tipo{ font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:2px 8px; border-radius:5px; border:1px solid var(--border-strong); background:var(--bg-surface-2); color:var(--ink-secondary); }
+  .tipo.prev{ background:var(--accent-tint); border-color:var(--accent); color:var(--accent-strong); }
+  .mh-date{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink); }
+  .mh-veh{ color:var(--ink); font-weight:500; }
+  .mh-desc{ margin:6px 0 4px; font-size:13px; color:var(--ink-secondary); white-space:pre-wrap; word-break:break-word; line-height:1.5; }
+  .mh-meta{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; font-size:12px; color:var(--ink-muted); }
+  .mh-actions{ display:flex; gap:6px; margin-top:6px; }
+  .mh-actions .btn{ padding:5px 10px; font-size:12px; }
+  .mbox{ margin-top:12px; padding:12px 14px; background:var(--bg-surface); border:1px solid var(--border); border-radius:8px; font-size:12.5px; }
+  .mbox-head{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; }
+  .mbox-head b{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-muted); }
+  .mbox ul{ list-style:none; margin:0; padding:0; color:var(--ink-secondary); }
+  .mbox li{ padding:4px 0; border-top:1px solid var(--border); line-height:1.45; }
+  .mbox li .mono{ color:var(--ink); }
+  .btn:focus-visible, .subnav button:focus-visible, .mtabs button:focus-visible, .qchips button:focus-visible, .kpi:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  @media (max-width:860px){
+    .nhead{ display:none; }
+    .nrow{ grid-template-columns:1fr auto; }
+    .nrow .n-last, .nrow .n-date{ grid-column:1 / -1; }
+    .m-form .form-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:480px){
+    .m-form .form-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- odômetro ---------- */
+  .orow{ display:grid; grid-template-columns:minmax(0,2.2fr) 120px 110px minmax(0,1.7fr) 100px; gap:10px 14px; align-items:center; padding:10px 8px; border-bottom:1px solid var(--border); font-size:13px; }
+  .orow.head{ padding:6px 8px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); font-weight:600; border-bottom:1px solid var(--border-strong); }
+  .oitem:hover > .orow{ background:var(--bg-surface-2); }
+  .orow .o-km{ font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--ink); }
+  .orow .o-none{ color:var(--ink-muted); font-size:12.5px; }
+  .orow .o-since{ color:var(--ink-secondary); font-size:12.5px; }
+  .o-edit{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; padding:4px 8px 12px; border-bottom:1px solid var(--border); background:var(--bg-surface-2); }
+  .o-edit label{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-muted); font-weight:600; }
+  .o-edit input{ font:inherit; font-size:13px; color:var(--ink); background:var(--bg-surface); border:1px solid var(--border-strong); border-radius:6px; padding:7px 9px; width:170px; }
+  .o-edit input:focus{ outline:2px solid var(--accent); border-color:var(--accent); }
+  .mbox-odo{ margin-bottom:8px; color:var(--ink-secondary); }
+  @media (max-width:860px){
+    .orow.head{ display:none; }
+    .orow{ grid-template-columns:1fr auto; }
+    .orow .o-km, .orow .o-date, .orow .o-since{ grid-column:1 / -1; }
+  }
+
+  .mbadge.lv-aviso{ background:var(--accent-tint); border-color:var(--accent); }
+  .mbadge.lv-aviso svg{ color:var(--accent-strong); }
+  .alert-bar.sev-aviso{ border-color:var(--accent); background:var(--accent-tint); }
+  .alert-bar.sev-aviso .ab-title svg{ color:var(--accent-strong); }
+  .prox-grid{ display:flex; flex-wrap:wrap; gap:12px 28px; }
+  .prox-grid input{ max-width:220px; }
+  .sublabel{ display:block; font-size:11.5px; color:var(--ink-secondary); margin-bottom:4px; }
+  .n-act{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
+  .n-act .btn{ padding:5px 10px; font-size:12px; }
+  .n-goal div{ white-space:nowrap; }
+  .mbox li{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:4px 10px; }
+  .mbox li .li-actions{ display:flex; gap:6px; }
+  .mbox li .li-actions .btn{ padding:3px 9px; font-size:11.5px; }
+  .mbox li .confirm-box{ width:100%; }
+  @media (max-width:860px){ .kpis.compact{ grid-template-columns:repeat(2,1fr); } }
+  footer{ margin-top:30px; padding-top:16px; border-top:1px solid var(--border); font-size:11.5px; color:var(--ink-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+  @media (max-width:860px){
+    .kpis{ grid-template-columns:repeat(2,1fr); }
+    .grid-2{ grid-template-columns:1fr; }
+    .top-meta{ align-items:flex-start; text-align:left; }
+    thead{ display:none; }
+    table, tbody, tr, td{ display:block; width:100%; }
+    tbody tr.row{ padding:10px 4px; border-bottom:1px solid var(--border); display:flex; flex-wrap:wrap; gap:6px 10px; }
+    tbody td{ padding:2px 0; }
+    td.cat-badge{ order:1; }
+    td.item{ order:2; width:100%; }
+    td.sit{ order:3; }
+    td.loc-cell{ order:4; }
+    td.expand-icon{ display:none; }
+    .detail-box{ grid-template-columns:1fr; }
+    .form-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:480px){
+    .form-grid{ grid-template-columns:1fr; }
+  }
+  .pw-ov{ position:fixed; inset:0; background:rgba(20,22,12,.55); display:flex; align-items:center; justify-content:center; z-index:9999; padding:16px; }
+  .pw-box{ background:var(--bg-surface); color:var(--ink); border:1px solid var(--border-strong); border-radius:10px; padding:20px; width:100%; max-width:340px; box-shadow:0 12px 40px rgba(0,0,0,.35); }
+  .pw-box h3{ margin:0 0 4px; font-size:16px; }
+  .pw-box p{ margin:0 0 12px; font-size:13px; color:var(--ink-muted); }
+  .pw-box input{ width:100%; box-sizing:border-box; padding:10px 12px; font-size:16px; letter-spacing:.3em; border:1px solid var(--border-strong); border-radius:6px; background:var(--bg-surface-2); color:var(--ink); }
+  .pw-box input:focus{ outline:2px solid var(--accent); }
+  .pw-msg{ min-height:18px; margin:8px 0; font-size:12px; color:var(--danger); }
+  .pw-btns{ display:flex; gap:8px; justify-content:flex-end; }
+  .aud-link{ background:none; border:0; padding:0; font:inherit; color:var(--ink-muted); cursor:pointer; opacity:.7; display:inline-flex; align-items:center; gap:5px; }
+  .aud-link:hover, .aud-link:focus-visible{ opacity:1; text-decoration:underline; }
+  .aud-ov{ position:fixed; inset:0; background:rgba(20,22,12,.55); display:flex; align-items:center; justify-content:center; z-index:9000; padding:16px; }
+  .aud-box{ background:var(--bg-surface); color:var(--ink); border:1px solid var(--border-strong); border-radius:10px; width:100%; max-width:760px; max-height:88vh; display:flex; flex-direction:column; box-shadow:0 12px 40px rgba(0,0,0,.35); }
+  .aud-top{ display:flex; align-items:flex-start; gap:12px; padding:16px 18px 10px; }
+  .aud-top h3{ margin:0; font-size:16px; }
+  .aud-top p{ margin:2px 0 0; font-size:12px; color:var(--ink-muted); }
+  .aud-x{ margin-left:auto; }
+  .aud-tools{ display:flex; flex-wrap:wrap; gap:8px; padding:0 18px 10px; align-items:center; }
+  .aud-tools input{ flex:1 1 200px; min-width:0; padding:8px 10px; font-size:13px; border:1px solid var(--border-strong); border-radius:6px; background:var(--bg-surface-2); color:var(--ink); }
+  .aud-tools input:focus{ outline:2px solid var(--accent); }
+  .aud-list{ overflow:auto; padding:0 18px 14px; border-top:1px solid var(--border); }
+  .aud-i{ padding:11px 0; border-bottom:1px solid var(--border); }
+  .aud-i:last-child{ border-bottom:0; }
+  .aud-h{ display:flex; flex-wrap:wrap; gap:6px 10px; align-items:baseline; font-size:13px; }
+  .aud-h time{ margin-left:auto; font-size:12px; color:var(--ink-muted); font-family:'IBM Plex Mono',monospace; }
+  .aud-b{ font-size:11px; font-weight:600; padding:2px 8px; border-radius:5px; border:1px solid var(--border-strong); }
+  .aud-b.a-add{ background:var(--accent-tint); border-color:var(--accent); }
+  .aud-b.a-edit{ background:var(--warning-tint); border-color:var(--warning); }
+  .aud-b.a-del{ background:var(--critical-tint); border-color:var(--critical); }
+  .aud-e{ font-size:11.5px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.04em; }
+  .aud-i ul{ margin:6px 0 0; padding-left:18px; font-size:12.5px; color:var(--ink); }
+  .aud-i li{ margin:2px 0; overflow-wrap:anywhere; }
+  .aud-empty{ padding:28px 0; text-align:center; font-size:13px; color:var(--ink-muted); }
+
+  /* ---------- estoque ---------- */
+  .est-ov{ position:fixed; inset:0; background:rgba(20,22,12,.55); display:flex; align-items:flex-start; justify-content:center; z-index:8000; padding:16px; overflow:auto; }
+  .est-box{ background:var(--bg-surface); color:var(--ink); border:1px solid var(--border-strong); border-radius:10px; width:100%; max-width:1000px; margin:auto; display:flex; flex-direction:column; max-height:calc(100vh - 32px); box-shadow:0 12px 40px rgba(0,0,0,.35); }
+  .est-top{ display:flex; align-items:flex-start; gap:12px; padding:16px 18px 12px; border-bottom:1px solid var(--border); }
+  .est-top h3{ margin:0; font-size:17px; }
+  .est-top p{ margin:3px 0 0; font-size:12.5px; color:var(--ink-muted); max-width:70ch; }
+  .est-top .btn{ margin-left:auto; flex:none; }
+  .est-scroll{ overflow:auto; padding:14px 18px 20px; }
+  .est-tiles.kpis.compact{ grid-template-columns:repeat(4,1fr); }
+  .est-kpi{ cursor:default; }
+  .est-kpi:hover{ transform:none; }
+  .est-kpi .label{ line-height:1.25; }
+  .erow{ display:grid; grid-template-columns:minmax(0,2.6fr) 118px 88px 150px 168px; gap:10px 14px; align-items:center; padding:10px 8px; border-bottom:1px solid var(--border); font-size:13px; }
+  .erow.head{ padding:6px 8px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); font-weight:600; border-bottom:1px solid var(--border-strong); }
+  .eitem > .erow:not(.head){ cursor:pointer; }
+  .eitem > .erow:not(.head):hover{ background:var(--bg-surface-2); }
+  .eitem.is-open > .erow{ background:var(--accent-tint); }
+  .erow .n-nom{ color:var(--ink); font-weight:500; }
+  .erow .n-sub{ color:var(--ink-muted); font-size:12px; }
+  .esaldo{ font-size:14px; color:var(--ink); font-weight:500; }
+  .esaldo.lv-falta{ color:var(--critical); }
+  .esaldo.lv-baixo{ color:var(--warning); }
+  .emin{ color:var(--ink-secondary); font-size:12.5px; }
+  .n-act2{ display:flex; gap:6px; }
+  .n-act2 .btn{ padding:5px 10px; font-size:12px; }
+  .edetail{ padding:12px 14px 14px; background:var(--bg-surface-2); border-bottom:1px solid var(--border); }
+  .edetail-info{ display:flex; flex-wrap:wrap; gap:6px 24px; font-size:12.5px; color:var(--ink-secondary); margin-bottom:10px; }
+  .edetail-info b{ display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-muted); }
+  .edetail-acts{ display:flex; flex-wrap:wrap; gap:8px; }
+  .emov{ padding:10px 4px; border-top:1px solid var(--border); font-size:13px; }
+  .emov-top{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; }
+  .emov-q{ font-weight:500; }
+  .emov-q.pos{ color:var(--good); }
+  .emov-q.neg{ color:var(--critical); }
+  .emov-det{ margin-top:3px; font-size:12.5px; color:var(--ink-secondary); overflow-wrap:anywhere; }
+  .emov-det b{ color:var(--ink); font-weight:500; }
+  .emov-acts{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .emov-acts .btn{ padding:4px 10px; font-size:12px; }
+  .emov-acts .li-actions{ display:flex; gap:6px; }
+  .emov-acts .confirm-box{ width:100%; }
+  @media (max-width:860px){
+    .est-tiles.kpis.compact{ grid-template-columns:repeat(2,1fr); }
+    .erow.head{ display:none; }
+    .erow{ grid-template-columns:1fr auto; }
+    .erow .emin{ display:none; }
+    .erow .n-act2{ grid-column:1 / -1; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="top-id">
+      <span class="eyebrow">9º Batalhão de Engenharia de Combate</span>
+      <h1>Prontidão da Frota</h1>
+      <p class="subtitle">Viaturas pesadas, viaturas de emprego geral e equipamentos de engenharia — situação de disponibilidade, localização e motivos de indisponibilidade. Controle de manutenção preventiva e corretiva com alertas de prazo. Clique em um item para editar.</p>
+    </div>
+    <div class="top-meta">
+      <span class="big" id="metaTotal">—</span>
+      <span>itens no controle geral</span>
+      <span id="genNote" style="margin-top:6px;"></span>
+    </div>
+  </header>
+
+  <div class="sync-bar">
+    <span class="dotstate"><span class="sync-dot" id="syncDot"></span><span id="syncText">Conectando…</span></span>
+    <span id="syncSub"></span>
+  </div>
+
+  <nav class="subnav" aria-label="Seções do painel">
+    <button type="button" data-mact="nav" data-target="kpiRow">Resumo</button>
+    <button type="button" data-mact="nav" data-target="secManut">Manutenção <span class="count" id="navCount" style="display:none;"></span></button>
+    <button type="button" data-mact="nav" data-target="secFrota">Relação de material</button>
+  </nav>
+
+  <div class="alert-bar" id="alertBar" role="status" aria-live="polite"></div>
+
+  <section class="kpis" id="kpiRow"></section>
+
+  <section class="grid-2">
+    <div class="panel">
+      <h2>Disponibilidade por categoria</h2>
+      <p class="hint">Distribuição de situação dentro de cada quadro de material.</p>
+      <div id="catBreakdown"></div>
+      <div class="legend">
+        <span class="item"><span class="dot good"></span>Disponível</span>
+        <span class="item"><span class="dot critical"></span>Indisponível</span>
+        <span class="item"><span class="dot warning"></span>Em processo de descarga</span>
+        <span class="item"><span class="dot outra"></span>Outra</span>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Principais causas de indisponibilidade</h2>
+      <p class="hint">Nº de viaturas indisponíveis que citam cada causa (uma viatura pode ter mais de uma).</p>
+      <div id="causesChart"></div>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-bottom:14px;">
+    <h2>Localização</h2>
+    <div class="loc-hero">
+      <span class="big mono" id="locHeroPct">—</span>
+      <span class="txt" id="locHeroTxt"></span>
+    </div>
+    <div class="loc-list" id="locList"></div>
+  </section>
+
+  <section class="panel" id="secManut" style="margin-bottom:14px;">
+    <div class="table-head-row">
+      <div>
+        <h2>Manutenção preventiva e corretiva</h2>
+        <p class="hint" style="margin-bottom:0;">Alerta de vencimento da preventiva por tempo (45, 15 e 5 dias antes da data prevista) ou por odômetro (2.000, 1.000 e 500 km antes do previsto). Vale o que vencer primeiro.</p>
+      </div>
+      <div class="head-actions">
+        <span class="hide-hint" id="maintHint"></span>
+        <button type="button" class="btn" id="maintToggle" aria-expanded="true" aria-controls="maintBody">Ocultar detalhes</button>
+        <button class="btn btn-primary" id="maintAddBtn" type="button" data-mact="add">+ Registrar manutenção</button>
+      </div>
+    </div>
+
+    <div class="toast" id="maintToast" role="status" aria-live="polite"></div>
+    <div id="maintFormWrap"></div>
+
+    <div class="kpis compact" id="maintTiles"></div>
+
+    <div id="maintBody">
+    <div class="mtabs" role="tablist">
+      <button type="button" role="tab" id="tabProx" data-mact="tab" data-tab="prox" class="active">Próximas preventivas</button>
+      <button type="button" role="tab" id="tabHist" data-mact="tab" data-tab="hist">Histórico de manutenções</button>
+      <button type="button" role="tab" id="tabOdo" data-mact="tab" data-tab="odo">Odômetro</button>
+    </div>
+
+    <div id="paneProx">
+      <p class="count-line" id="nextCount"></p>
+      <div id="nextList"></div>
+    </div>
+
+    <div id="paneOdo" style="display:none;">
+      <div class="filters">
+        <div class="search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="odoSearch" type="text" placeholder="Buscar item por nome, marca, EB ou localização…" aria-label="Buscar item no controle de odômetro">
+        </div>
+        <div class="chipgroup" id="odoChips"></div>
+      </div>
+      <p class="count-line" id="odoCount"></p>
+      <div id="odoList"></div>
+    </div>
+
+    <div id="paneHist" style="display:none;">
+      <div class="filters">
+        <div class="search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="maintSearch" type="text" placeholder="Buscar por viatura, serviço, mecânico, OS…" aria-label="Buscar no histórico de manutenções">
+        </div>
+        <div class="chipgroup" id="maintTipoChips">
+          <button type="button" class="chip active" data-mact="tipo" data-tipo="">Todas</button>
+          <button type="button" class="chip" data-mact="tipo" data-tipo="preventiva">Preventivas</button>
+          <button type="button" class="chip" data-mact="tipo" data-tipo="corretiva">Corretivas</button>
+        </div>
+      </div>
+      <p class="count-line" id="histCount"></p>
+      <div id="maintHistory"></div>
+    </div>
+    </div>
+  </section>
+
+  <section class="panel table-panel" id="secFrota">
+    <div class="table-head-row">
+      <h2>Relação completa de material</h2>
+      <div class="head-actions">
+        <span class="hide-hint" id="frotaHint"></span>
+        <button type="button" class="btn" id="frotaToggle" aria-expanded="true" aria-controls="frotaBody">Ocultar itens</button>
+        <button class="btn btn-primary" id="addBtn">+ Adicionar item</button>
+      </div>
+    </div>
+
+    <div id="addFormWrap" style="display:none; margin-bottom:16px;"></div>
+
+    <div class="filters">
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="searchInput" type="text" placeholder="Buscar por nomenclatura, marca, modelo, motivo…">
+      </div>
+      <select id="sortSel">
+        <option value="acao">Ordenar: indisponíveis primeiro</option>
+        <option value="cat">Ordenar: categoria</option>
+        <option value="loc">Ordenar: localização</option>
+        <option value="ano_asc">Ordenar: ano (mais antigo)</option>
+      </select>
+      <button class="clear-btn" id="clearBtn">Limpar filtros</button>
+    </div>
+    <div class="filters">
+      <div class="chipgroup" id="catChips"></div>
+      <div class="chipgroup" id="sitChips"></div>
+    </div>
+    <p class="count-line" id="countLine"></p>
+    <div id="frotaBody" style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:120px;">Categoria</th>
+            <th>Item</th>
+            <th style="width:130px;">Situação</th>
+            <th style="width:140px;">Localização</th>
+            <th style="width:16px;"></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <datalist id="locOptions"></datalist>
+  </section>
+
+  <footer>
+    <span>Fonte original: Controle Geral de Viaturas e Equipamentos de Engenharia — QDV / QDEP / QDE, 9º BE Cmb.</span>
+    <span>As alterações feitas aqui são salvas para todos que abrirem esta página.</span>
+    <span style="display:inline-flex;flex-wrap:wrap;gap:6px 18px;">
+      <button type="button" class="aud-link" id="estBtn" title="Controle de estoque" style="display:none;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 5.2 8 2l6 3.2v5.6L8 14l-6-3.2V5.2z"/><path d="M2 5.2 8 8.4l6-3.2M8 8.4V14"/></svg>Estoque<span id="estBadge" style="display:none;margin-left:2px;padding:0 6px;border-radius:999px;background:var(--critical);color:var(--on-solid);font-family:'IBM Plex Mono',monospace;font-size:10.5px;"></span></button>
+      <button type="button" class="aud-link" id="audBtn" title="Histórico de alterações" style="display:none;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 4.5V8l2.2 1.6"/></svg>Histórico de alterações</button>
+    </span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var CATS = ['Viatura Pesada','Viatura','Equipamento de Engenharia'];
+  var CAT_LABEL = {'Viatura Pesada':'Viatura Pesada (QDEP)','Viatura':'Viatura (QDV)','Equipamento de Engenharia':'Equip. Engenharia (QDE)'};
+  var CAT_SHORT = {'Viatura Pesada':'V. Pesada','Viatura':'Viatura','Equipamento de Engenharia':'Equipamento'};
+  var SITS = ['DISPONÍVEL','INDISPONÍVEL','EPDC'];
+  var TAGS = ['Pneus','Elétrico/Chicote','Motor/Injeção','Bateria','Carroceria/Vidros','Ar condicionado','Hidráulico','Freio/Suspensão'];
+  var KW = [
+    ['Pneus', /pneu/i],
+    ['Bateria', /bateria/i],
+    ['Elétrico\/Chicote', /el[ée]tric|chicote|inje[cç][aã]o eletr[oô]nica|alternador/i],
+    ['Motor\/Injeção', /motor|inje[cç][aã]o|bomba inje|bicos inje|retifica|partida/i],
+    ['Hidráulico', /hidr[aá]ulic/i],
+    ['Ar condicionado', /ar cond/i],
+    ['Freio\/Suspensão', /freio|suspens|amortecedor|embreagem/i],
+    ['Carroceria\/Vidros', /carroceria|parabrisa|vidro|funilaria|pintura|capotad/i]
+  ];
+  function classifyTags(motivo){
+    var m = (motivo||'').toLowerCase();
+    return KW.filter(function(k){ return k[1].test(m); }).map(function(k){ return k[0]; });
+  }
+
+  var STATE = { items: [], readOnly:false, connected:false };
+  var filter = { cat:null, sit:null, tag:null, loc:null, q:'' };
+  var openRow = null;      // id of row whose read-only detail is expanded
+  var editingId = null;    // id of row currently in edit mode
+  var confirmDeleteId = null; // id of row awaiting delete confirmation
+  var addingNew = false;
+  var dbApi = null;
+
+  function statusClass(s){
+    if(s==='DISPONÍVEL') return 'good';
+    if(s==='INDISPONÍVEL') return 'critical';
+    if(s==='EPDC') return 'warning';
+    return 'outra';
+  }
+  function statusLabel(s){
+    if(s==='EPDC') return 'Em processo de descarga';
+    if(!s) return 'Não informado';
+    return s.charAt(0)+s.slice(1).toLowerCase();
+  }
+  function pct(n,total){ return total? (Math.round(n/total*1000)/10).toString().replace('.',',')+'%' : '0%'; }
+  function esc(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // ---------------- KPIs ----------------
+  function renderKPIs(){
+    var DATA = STATE.items;
+    var total = DATA.length;
+    var good = DATA.filter(function(r){return r.situacao==='DISPONÍVEL';}).length;
+    var crit = DATA.filter(function(r){return r.situacao==='INDISPONÍVEL';}).length;
+    var warn = DATA.filter(function(r){return r.situacao==='EPDC';}).length;
+    document.getElementById('metaTotal').textContent = total;
+    if(typeof applyFrotaToggle==='function') applyFrotaToggle();
+    var tiles = [
+      {k:'total', label:'Frota total', value:total, pct:'Viaturas + equipamentos', sit:null},
+      {k:'good', label:'Disponível', value:good, pct:pct(good,total)+' da frota', sit:'DISPONÍVEL'},
+      {k:'critical', label:'Indisponível', value:crit, pct:pct(crit,total)+' da frota', sit:'INDISPONÍVEL'},
+      {k:'warning', label:'Em proc. de descarga', value:warn, pct:pct(warn,total)+' da frota', sit:'EPDC'}
+    ];
+    document.getElementById('kpiRow').innerHTML = tiles.map(function(t){
+      var active = filter.sit && filter.sit===t.sit ? ' active' : '';
+      return '<button class="kpi'+active+'" data-k="'+t.k+'" data-sit="'+(t.sit||'')+'">'+
+        '<span class="label">'+t.label+'</span><span class="value">'+t.value+'</span><span class="pct">'+t.pct+'</span></button>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('#kpiRow .kpi'), function(el){
+      el.addEventListener('click', function(){
+        var s = el.getAttribute('data-sit');
+        filter.sit = (s && filter.sit===s) ? null : (s || null);
+        renderAll();
+      });
+    });
+  }
+
+  // ---------------- category breakdown ----------------
+  function renderCatBreakdown(){
+    var DATA = STATE.items;
+    var html = CATS.map(function(cat){
+      var rows = DATA.filter(function(r){return r.categoria===cat;});
+      var n = rows.length;
+      var g = rows.filter(function(r){return r.situacao==='DISPONÍVEL';}).length;
+      var c = rows.filter(function(r){return r.situacao==='INDISPONÍVEL';}).length;
+      var w = rows.filter(function(r){return r.situacao==='EPDC';}).length;
+      var o = Math.max(0, n-g-c-w);
+      function seg(cls,v){ return v>0 ? '<div class="seg '+cls+'" style="flex:'+v+' 0 0;" title="'+v+'"></div>' : ''; }
+      var stack = n>0 ? seg('good',g)+seg('critical',c)+seg('warning',w)+seg('outra',o) : '';
+      return '<div class="cat-row" data-cat="'+cat+'">'+
+        '<div class="cat-head"><span class="name">'+CAT_LABEL[cat]+'</span><span class="n">'+n+' itens · '+pct(g,n)+' disp.</span></div>'+
+        '<div class="stack">'+stack+'</div></div>';
+    }).join('');
+    document.getElementById('catBreakdown').innerHTML = html;
+    Array.prototype.forEach.call(document.querySelectorAll('.cat-row'), function(el){
+      el.addEventListener('click', function(){
+        var c = el.getAttribute('data-cat');
+        filter.cat = (filter.cat===c) ? null : c;
+        renderAll();
+      });
+    });
+  }
+
+  // ---------------- causes chart ----------------
+  function renderCauses(){
+    var DATA = STATE.items;
+    var counts = TAGS.map(function(t){
+      return { tag:t, n: DATA.filter(function(r){return (r.tags||[]).indexOf(t)>-1;}).length };
+    }).sort(function(a,b){return b.n-a.n;});
+    var max = Math.max.apply(null, counts.map(function(c){return c.n;}).concat([1]));
+    var html = counts.map(function(c){
+      var w = max? Math.round(c.n/max*100) : 0;
+      var active = filter.tag===c.tag ? ' active' : '';
+      return '<div class="cause-bar'+active+'" data-tag="'+c.tag+'">'+
+        '<span class="cname">'+c.tag+'</span><span class="track"><span class="fill" style="width:'+w+'%"></span></span>'+
+        '<span class="cval">'+c.n+'</span></div>';
+    }).join('');
+    document.getElementById('causesChart').innerHTML = html;
+    Array.prototype.forEach.call(document.querySelectorAll('.cause-bar'), function(el){
+      el.addEventListener('click', function(){
+        var t = el.getAttribute('data-tag');
+        filter.tag = (filter.tag===t) ? null : t;
+        renderAll();
+      });
+    });
+  }
+
+  // ---------------- locations ----------------
+  function renderLocations(){
+    var DATA = STATE.items;
+    var counts = {};
+    DATA.forEach(function(r){ var l = r.localizacao || 'Não informado'; counts[l] = (counts[l]||0)+1; });
+    var sede = counts['9º BE Cmb (Sede)'] || 0;
+    var total = DATA.length;
+    document.getElementById('locHeroPct').textContent = pct(sede,total);
+    var otherKeys = Object.keys(counts).filter(function(l){return l!=='9º BE Cmb (Sede)';});
+    document.getElementById('locHeroTxt').textContent = total? ('do material está concentrado na Sede ('+sede+' de '+total+'); '+(total-sede)+' itens distribuídos em '+otherKeys.length+' outras localizações/operações.') : '';
+    var others = otherKeys.sort(function(a,b){return counts[b]-counts[a];});
+    document.getElementById('locList').innerHTML = others.map(function(l){
+      var active = filter.loc===l ? ' active' : '';
+      return '<span class="loc-chip'+active+'" data-loc="'+esc(l)+'">'+esc(l)+'<span class="n">'+counts[l]+'</span></span>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('.loc-chip'), function(el){
+      el.addEventListener('click', function(){
+        var l = el.getAttribute('data-loc');
+        filter.loc = (filter.loc===l) ? null : l;
+        renderAll();
+      });
+    });
+    // datalist for forms
+    var allLocs = Object.keys(counts).sort();
+    document.getElementById('locOptions').innerHTML = allLocs.map(function(l){ return '<option value="'+esc(l)+'">'; }).join('');
+  }
+
+  // ---------------- table filter chips ----------------
+  function renderChips(){
+    var catHtml = '<button class="chip'+(filter.cat===null?' active':'')+'" data-cat="">Todas categorias</button>' +
+      CATS.map(function(c){ return '<button class="chip'+(filter.cat===c?' active':'')+'" data-cat="'+c+'">'+CAT_SHORT[c]+'</button>'; }).join('');
+    document.getElementById('catChips').innerHTML = catHtml;
+    var sitHtml = '<button class="chip'+(filter.sit===null?' active':'')+'" data-sit="">Todas situações</button>' +
+      SITS.map(function(s){ return '<button class="chip'+(filter.sit===s?' active':'')+'" data-sit="'+s+'">'+statusLabel(s)+'</button>'; }).join('');
+    document.getElementById('sitChips').innerHTML = sitHtml;
+    Array.prototype.forEach.call(document.querySelectorAll('#catChips .chip'), function(el){
+      el.addEventListener('click', function(){ filter.cat = el.getAttribute('data-cat') || null; renderAll(); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#sitChips .chip'), function(el){
+      el.addEventListener('click', function(){ filter.sit = el.getAttribute('data-sit') || null; renderAll(); });
+    });
+  }
+
+  // ---------------- filtering / sorting ----------------
+  function getFiltered(){
+    var q = filter.q.trim().toLowerCase();
+    var rows = STATE.items.filter(function(r){
+      if(filter.cat && r.categoria!==filter.cat) return false;
+      if(filter.sit && r.situacao!==filter.sit) return false;
+      if(filter.tag && (r.tags||[]).indexOf(filter.tag)===-1) return false;
+      if(filter.loc && r.localizacao!==filter.loc) return false;
+      if(q){
+        var hay = [r.nomenclatura,r.marca,r.modelo,r.motivo,r.providencia,r.eb].join(' ').toLowerCase();
+        if(hay.indexOf(q)===-1) return false;
+      }
+      return true;
+    });
+    var sortBy = document.getElementById('sortSel').value;
+    var sitRank = {'INDISPONÍVEL':0,'EPDC':1,'DISPONÍVEL':2};
+    rows.sort(function(a,b){
+      if(sortBy==='acao'){
+        var d = (sitRank[a.situacao]===undefined?3:sitRank[a.situacao]) - (sitRank[b.situacao]===undefined?3:sitRank[b.situacao]);
+        if(d!==0) return d;
+        return (a.nomenclatura||'').localeCompare(b.nomenclatura||'');
+      }
+      if(sortBy==='cat'){
+        var d2 = CATS.indexOf(a.categoria)-CATS.indexOf(b.categoria);
+        if(d2!==0) return d2;
+        return (a.nomenclatura||'').localeCompare(b.nomenclatura||'');
+      }
+      if(sortBy==='loc') return (a.localizacao||'').localeCompare(b.localizacao||'');
+      if(sortBy==='ano_asc'){
+        var ay = parseInt(a.ano)||9999, by = parseInt(b.ano)||9999;
+        return ay-by;
+      }
+      return 0;
+    });
+    return rows;
+  }
+
+  // ---------------- edit / add form markup ----------------
+  function fieldsFormHtml(prefix, r){
+    r = r || {categoria:'Viatura', situacao:'DISPONÍVEL', nomenclatura:'', marca:'', modelo:'', ano:'', localizacao:'', cap_tanque:'', consumo:'', motivo:'', providencia:''};
+    return ''+
+    '<div class="form-grid">'+
+      '<div class="field full"><label>Nomenclatura</label><input type="text" id="'+prefix+'-nomenclatura" value="'+esc(r.nomenclatura)+'" placeholder="Ex.: VTNE PICAPE CABINE DUPLA 05PSG"></div>'+
+      '<div class="field"><label>Categoria</label><select id="'+prefix+'-categoria">'+
+        CATS.map(function(c){return '<option value="'+c+'"'+(r.categoria===c?' selected':'')+'>'+CAT_LABEL[c]+'</option>';}).join('')+
+      '</select></div>'+
+      '<div class="field"><label>Marca</label><input type="text" id="'+prefix+'-marca" value="'+esc(r.marca)+'"></div>'+
+      '<div class="field"><label>Modelo</label><input type="text" id="'+prefix+'-modelo" value="'+esc(r.modelo)+'"></div>'+
+      '<div class="field"><label>Ano</label><input type="text" id="'+prefix+'-ano" value="'+esc(r.ano)+'" inputmode="numeric" maxlength="4"></div>'+
+      '<div class="field"><label>Situação</label><select id="'+prefix+'-situacao">'+
+        SITS.map(function(s){return '<option value="'+s+'"'+(r.situacao===s?' selected':'')+'>'+statusLabel(s)+'</option>';}).join('')+
+      '</select></div>'+
+      '<div class="field"><label>Localização</label><input type="text" id="'+prefix+'-localizacao" value="'+esc(r.localizacao)+'" list="locOptions" placeholder="9º BE Cmb (Sede)"></div>'+
+      '<div class="field"><label>Cap. tanque</label><input type="text" id="'+prefix+'-cap_tanque" value="'+esc(r.cap_tanque)+'"></div>'+
+      '<div class="field"><label>Consumo</label><input type="text" id="'+prefix+'-consumo" value="'+esc(r.consumo)+'"></div>'+
+      '<div class="field"><label>Odômetro (km)</label><input type="text" id="'+prefix+'-odometro" value="'+esc(numStr(r.odometro))+'" inputmode="numeric" placeholder="Ex.: 48.250"></div>'+
+      '<div class="field full"><label>Motivo da indisponibilidade</label><textarea id="'+prefix+'-motivo">'+esc(r.motivo)+'</textarea></div>'+
+      '<div class="field full"><label>Providência / OS</label><textarea id="'+prefix+'-providencia">'+esc(r.providencia)+'</textarea></div>'+
+    '</div>';
+  }
+
+  function readForm(prefix){
+    function v(id){ var el = document.getElementById(prefix+'-'+id); return el ? el.value : ''; }
+    var motivo = v('motivo').trim();
+    return {
+      nomenclatura: v('nomenclatura').trim(),
+      categoria: v('categoria'),
+      marca: v('marca').trim(),
+      modelo: v('modelo').trim(),
+      ano: v('ano').trim(),
+      situacao: v('situacao'),
+      localizacao: v('localizacao').trim() || 'Não informado',
+      cap_tanque: v('cap_tanque').trim(),
+      consumo: v('consumo').trim(),
+      odometro: parseKm(v('odometro')),
+      motivo: motivo,
+      providencia: v('providencia').trim(),
+      tags: classifyTags(motivo),
+      quantidade: 1
+    };
+  }
+
+  // ---------------- table rendering ----------------
+  function renderTable(){
+    var rows = getFiltered();
+    document.getElementById('countLine').textContent = rows.length + ' de ' + STATE.items.length + ' itens exibidos';
+    var tbody = document.getElementById('tbody');
+    if(rows.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="5">'+(STATE.items.length===0 ? 'Nenhum item cadastrado ainda.' : 'Nenhum item corresponde aos filtros selecionados.')+'</td></tr>';
+      return;
+    }
+    var html = rows.map(function(r){
+      var mm = [r.marca, r.modelo].filter(Boolean).join(' ') + (r.ano ? ' · '+r.ano : '') + (typeof r.odometro==='number' ? ' · '+fmtKm(r.odometro) : '');
+      var isEditing = editingId===r.id;
+      var isOpen = openRow===r.id || isEditing;
+      var rowHtml = '<tr class="row'+(isEditing?' is-editing':'')+'" data-id="'+r.id+'">'+
+        '<td class="cat-badge"><span>'+CAT_SHORT[r.categoria]+'</span></td>'+
+        '<td class="item"><div class="nom">'+esc(r.nomenclatura)+'</div><div class="mm">'+esc(mm)+'</div>'+rowBadge(r)+'</td>'+
+        '<td class="sit"><span class="pill"><span class="dot '+statusClass(r.situacao)+'"></span>'+statusLabel(r.situacao)+'</span></td>'+
+        '<td class="loc-cell">'+esc(r.localizacao)+'</td>'+
+        '<td class="expand-icon">'+(isOpen?'▴':'▾')+'</td>'+
+      '</tr>';
+      var detailHtml = '';
+      if(isEditing){
+        var actionsHtml = (confirmDeleteId===r.id) ?
+          '<div class="confirm-box"><span>Excluir <b>'+esc(r.nomenclatura||'este item')+'</b> definitivamente? Essa ação não pode ser desfeita.'+(MCOUNT[r.id] ? ' Os '+plural(MCOUNT[r.id],'registro','registros')+' de manutenção deste item também serão excluídos.' : '')+'</span>'+
+            '<span class="confirm-box-btns">'+
+              '<button class="btn" data-act="delete-cancel" data-id="'+r.id+'">Cancelar</button>'+
+              '<button class="btn btn-danger" data-act="delete-confirm" data-id="'+r.id+'">Sim, excluir</button>'+
+            '</span></div>'
+          :
+          '<div class="form-actions"><span class="form-msg" id="msg-'+r.id+'"></span>'+
+            '<button class="btn btn-danger" data-act="delete" data-id="'+r.id+'">Excluir</button>'+
+            '<button class="btn" data-act="cancel" data-id="'+r.id+'">Cancelar</button>'+
+            '<button class="btn btn-primary" data-act="save" data-id="'+r.id+'">Salvar</button>'+
+          '</div>';
+        detailHtml = '<tr class="detail" id="d-'+r.id+'"><td colspan="5"><div class="form-box">'+
+          fieldsFormHtml('e', r)+
+          actionsHtml+
+          '</div></td></tr>';
+      } else if(isOpen){
+        detailHtml = '<tr class="detail" id="d-'+r.id+'"><td colspan="5"><div class="detail-box">'+
+          '<div class="col"><b>Motivo da indisponibilidade</b><p>'+(esc(r.motivo)||'—')+'</p></div>'+
+          '<div class="col"><b>Providência / OS</b><p>'+(esc(r.providencia)||'—')+'</p></div>'+
+        '</div>'+maintBoxHtml(r)+
+        (STATE.readOnly ? '' : '<div class="detail-actions"><button class="btn" data-act="edit" data-id="'+r.id+'">Editar</button></div>')+
+        '</td></tr>';
+      }
+      return rowHtml + detailHtml;
+    }).join('');
+    tbody.innerHTML = html;
+
+    Array.prototype.forEach.call(document.querySelectorAll('tr.row'), function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        if(editingId && editingId!==id){ return; } // finish current edit first
+        if(editingId===id) return; // clicking the row itself while editing does nothing
+        openRow = (openRow===id) ? null : id;
+        renderTable();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-act]'), function(el){
+      el.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        var act = el.getAttribute('data-act');
+        var id = el.getAttribute('data-id');
+        if(act==='edit'){ editingId = id; openRow = id; confirmDeleteId = null; renderTable(); }
+        else if(act==='cancel'){ editingId = null; confirmDeleteId = null; renderTable(); }
+        else if(act==='delete'){ confirmDeleteId = id; renderTable(); }
+        else if(act==='delete-cancel'){ confirmDeleteId = null; renderTable(); }
+        else if(act==='delete-confirm'){ handleDelete(id); }
+        else if(act==='save'){ handleSave(id); }
+        else if(act==='maint-new-for'){ openMaintForm({mode:'new', veiculoId:id}); }
+      });
+    });
+  }
+
+  function handleSave(id){
+    var msg = document.getElementById('msg-'+id);
+    if(!STATE.readOnly && dbApi){
+      var data = readForm('e');
+      if(!data.nomenclatura){ if(msg){ msg.textContent='Informe a nomenclatura.'; msg.className='form-msg err'; } return; }
+      if(odoInvalid(data)){ if(msg){ msg.textContent='Odômetro inválido. Use apenas números (ex.: 48250).'; msg.className='form-msg err'; } return; }
+      var oldItem = STATE.items.filter(function(x){ return x.id===id; })[0] || {};
+      applyOdoDate(data, oldItem);
+      var diff = audDiff(oldItem, data, FIELD_LBL);
+      if(msg){ msg.textContent='Salvando…'; msg.className='form-msg'; }
+      dbApi.collection('veiculos').doc(id).update(data).then(function(){
+        if(diff.length) logAudit('editou','item', itemLabel(Object.assign({}, oldItem, data)), id, diff);
+        editingId = null;
+        renderTable();
+      }).catch(function(e){
+        if(msg){ msg.textContent = 'Não foi possível salvar (' + (e && e.code || 'erro') + ').'; msg.className='form-msg err'; }
+      });
+    }
+  }
+
+  function handleDelete(id){
+    if(STATE.readOnly || !dbApi) return;
+    var btn = document.querySelector('[data-act="delete-confirm"][data-id="'+id+'"]');
+    if(btn){ btn.disabled = true; btn.textContent = 'Excluindo…'; }
+    var recs = MAINT.filter(function(m){ return m.veiculoId===id; });
+    var oldV = STATE.items.filter(function(x){ return x.id===id; })[0] || {};
+    var snapLines = audSnap(oldV, {categoria:FIELD_LBL.categoria, situacao:FIELD_LBL.situacao, localizacao:FIELD_LBL.localizacao, ano:FIELD_LBL.ano, odometro:FIELD_LBL.odometro});
+    if(recs.length) snapLines.push('Registros de manutenção excluídos junto: '+recs.length);
+    Promise.all(recs.map(function(m){ return dbApi.collection('manutencoes').doc(m.id).delete(); })).then(function(){
+      return dbApi.collection('veiculos').doc(id).delete();
+    }).then(function(){
+      logAudit('excluiu','item', itemLabel(oldV), id, snapLines);
+      editingId = null; openRow = null; confirmDeleteId = null;
+      renderTable();
+    }).catch(function(e){
+      confirmDeleteId = null;
+      renderTable();
+      var msg = document.getElementById('msg-'+id);
+      if(msg){ msg.textContent = 'Não foi possível excluir (' + (e && e.code || 'erro') + '). Tente novamente.'; msg.className='form-msg err'; }
+    });
+  }
+
+  // ---------------- add new item ----------------
+  function renderAddForm(){
+    var wrap = document.getElementById('addFormWrap');
+    if(!addingNew){ wrap.style.display='none'; wrap.innerHTML=''; return; }
+    wrap.style.display='block';
+    wrap.innerHTML = '<div class="form-box">'+
+      fieldsFormHtml('n', null)+
+      '<div class="form-actions"><span class="form-msg" id="msg-new"></span>'+
+        '<button class="btn" id="newCancel">Cancelar</button>'+
+        '<button class="btn btn-primary" id="newSave">Salvar item</button>'+
+      '</div></div>';
+    document.getElementById('newCancel').addEventListener('click', function(){ addingNew=false; renderAddForm(); });
+    document.getElementById('newSave').addEventListener('click', function(){
+      var msg = document.getElementById('msg-new');
+      var data = readForm('n');
+      if(!data.nomenclatura){ msg.textContent='Informe a nomenclatura.'; msg.className='form-msg err'; return; }
+      if(odoInvalid(data)){ msg.textContent='Odômetro inválido. Use apenas números (ex.: 48250).'; msg.className='form-msg err'; return; }
+      applyOdoDate(data, {});
+      if(STATE.readOnly || !dbApi){ msg.textContent='Modo somente leitura nesta visualização.'; msg.className='form-msg err'; return; }
+      msg.textContent='Salvando…'; msg.className='form-msg';
+      dbApi.collection('veiculos').add(data).then(function(ref){
+        logAudit('adicionou','item', itemLabel(data), ref && ref.id, audSnap(data, {categoria:FIELD_LBL.categoria, situacao:FIELD_LBL.situacao, localizacao:FIELD_LBL.localizacao, ano:FIELD_LBL.ano, odometro:FIELD_LBL.odometro, motivo:FIELD_LBL.motivo}));
+        addingNew = false; renderAddForm();
+      }).catch(function(e){
+        msg.textContent = 'Não foi possível salvar (' + (e && e.code || 'erro') + ').'; msg.className='form-msg err';
+      });
+    });
+  }
+
+  document.getElementById('addBtn').addEventListener('click', function(){
+    addingNew = !addingNew;
+    renderAddForm();
+  });
+
+  // ================= MANUTENÇÃO (preventiva / corretiva) =================
+  var MAINT = [];              // docs da coleção "manutencoes"
+  var MFORM = null;            // {mode:'new'|'edit', id, veiculoId}
+  var mTab = 'prox';
+  var mLevel = null;           // filtro de nível de alerta
+  var mTipo = null;            // filtro de tipo no histórico
+  var mQuery = '';
+  var mShowAll = false;
+  var mConfirmDel = null;
+  var NEXT = [];               // próximas preventivas [{veiculo, rec, days, level}]
+  var NEXT_BY_VEH = {};
+  var MCOUNT = {};             // veiculoId -> nº de registros
+  var VBYID = {};
+  // Limites dos alertas de preventiva (editáveis aqui). Por tempo: dias antes da data prevista. Por odômetro: km antes do previsto.
+  var AVISO_DIAS = 45, ATENCAO_DIAS = 15, URGENTE_DIAS = 5;
+  var AVISO_KM = 2000, ATENCAO_KM = 1000, URGENTE_KM = 500;
+  var PREV_INTERVALO_DIAS = 45;   // sugestão de data da próxima preventiva ao registrar uma nova
+  var RANK = {vencida:0, urgente:1, atencao:2, aviso:3, ok:4};
+  var LASTPREV_BY_VEH = {};    // última preventiva com odômetro informado
+  var odoQuery = '', odoCat = null, odoEditId = null, odoWarn = false, odoAll = false;
+  var toastTimer = null;
+  var LV_LABEL = {vencida:'Vencidas', urgente:'Até 5 dias', atencao:'Até 15 dias', aviso:'Até 45 dias', ok:'Em dia'};
+  var ICON = {
+    aviso:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
+    vencida:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18v.01"/></svg>',
+    urgente:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    atencao:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    ok:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>'
+  };
+
+  function parseKm(s){
+    s = String(s==null ? '' : s).trim().toLowerCase().replace(/\s*km$/,'').replace(/\s/g,'');
+    if(s==='') return '';
+    if(!/^(\d{1,3}(\.\d{3})+|\d+)(,\d+)?$/.test(s)) return NaN;
+    var n = Number(s.replace(/\./g,'').replace(',','.'));
+    return (isFinite(n) && n>=0) ? Math.round(n) : NaN;
+  }
+  function hasKm(m){ return typeof m.km==='number'; }
+  function fmtKm(n){ return Number(n).toLocaleString('pt-BR')+' km'; }
+  function numStr(n){ return (typeof n==='number') ? String(n) : ''; }
+  function kmTag(m){ return hasKm(m) ? ' · <span class="mono">'+fmtKm(m.km)+'</span>' : ''; }
+  function odoLine(r){
+    var has = typeof r.odometro==='number';
+    return '<div class="mbox-odo"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted);">Odômetro</b> '+
+      (has ? '<span class="mono">'+fmtKm(r.odometro)+'</span>'+(r.odometroData ? ' · atualizado em '+fmtD(r.odometroData) : '') : 'não informado')+'</div>';
+  }
+  function odoInvalid(data){ return !(data.odometro==='' || (typeof data.odometro==='number' && !isNaN(data.odometro))); }
+  function applyOdoDate(data, old){
+    if(data.odometro===''){ data.odometroData = ''; }
+    else if(data.odometro!==old.odometro){ data.odometroData = todayStr(); }
+    else { data.odometroData = old.odometroData || todayStr(); }
+  }
+  function pad2(n){ return n<10 ? '0'+n : ''+n; }
+  function fmtISO(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+  function todayStr(){ return fmtISO(new Date()); }
+  function parseD(s){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');
+    return m ? new Date(+m[1], +m[2]-1, +m[3]) : null;
+  }
+  function diffDays(s){
+    var d = parseD(s); if(!d) return null;
+    return Math.round((d - parseD(todayStr())) / 86400000);
+  }
+  function fmtD(s){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');
+    return m ? m[3]+'/'+m[2]+'/'+m[1] : '—';
+  }
+  function addDays(s, n){
+    var d = parseD(s); if(!d) return '';
+    d.setDate(d.getDate()+n);
+    return fmtISO(d);
+  }
+  function addMonths(s, n){
+    var d = parseD(s); if(!d) return '';
+    var day = d.getDate();
+    d.setMonth(d.getMonth()+n);
+    if(d.getDate()!==day) d.setDate(0);
+    return fmtISO(d);
+  }
+  function levelOf(days){
+    if(days<0) return 'vencida';
+    if(days<=URGENTE_DIAS) return 'urgente';
+    if(days<=ATENCAO_DIAS) return 'atencao';
+    if(days<=AVISO_DIAS) return 'aviso';
+    return 'ok';
+  }
+  function levelKm(left){
+    if(left<0) return 'vencida';
+    if(left<=URGENTE_KM) return 'urgente';
+    if(left<=ATENCAO_KM) return 'atencao';
+    if(left<=AVISO_KM) return 'aviso';
+    return 'ok';
+  }
+  function plural(n, one, many){ return n+' '+(n===1?one:many); }
+  function hasProxKm(m){ return typeof m.proximaKm==='number'; }
+  function goalText(m){
+    return [m.proxima ? fmtD(m.proxima) : '', hasProxKm(m) ? fmtKm(m.proximaKm) : ''].filter(Boolean).join(' ou ');
+  }
+  function badgeHtml(n, small){
+    var t;
+    if(n.level==='sem') t = 'Sem leitura de odômetro';
+    else if(n.basis==='odometro') t = n.kmLeft<0 ? 'Vencida há '+fmtKm(-n.kmLeft) : (n.kmLeft===0 ? 'Vence no odômetro atual' : 'Faltam '+fmtKm(n.kmLeft));
+    else if(n.days<0) t = 'Vencida há '+plural(-n.days,'dia','dias');
+    else if(n.days===0) t = 'Vence hoje';
+    else t = 'Faltam '+plural(n.days,'dia','dias');
+    return '<span class="mbadge lv-'+n.level+(small?' sm':'')+'">'+(ICON[n.level]||ICON.atencao)+t+'</span>';
+  }
+  function vShort(v){
+    var mm = [v.marca, v.modelo].filter(Boolean).join(' ');
+    return (v.nomenclatura||'—') + (mm ? ' — '+mm : '');
+  }
+  function vSub(v){
+    return [v.eb ? 'EB '+v.eb : '', v.localizacao || ''].filter(Boolean).join(' · ');
+  }
+  function labelFor(m){
+    var v = VBYID[m.veiculoId];
+    return v ? vShort(v) : (m.veiculoLabel || 'Item removido');
+  }
+  function subFor(m){
+    var v = VBYID[m.veiculoId];
+    return v ? vSub(v) : '';
+  }
+
+  // ---- cálculo da próxima preventiva por viatura (por tempo ou por odômetro) ----
+  function worse(a,b){ return RANK[a]<=RANK[b] ? a : b; }
+  function refreshMaint(){
+    VBYID = {};
+    STATE.items.forEach(function(v){ VBYID[v.id] = v; });
+    MCOUNT = {};
+    var latest = {};
+    MAINT.forEach(function(m){
+      MCOUNT[m.veiculoId] = (MCOUNT[m.veiculoId]||0) + 1;
+      if(m.tipo!=='preventiva' || !(m.proxima || hasProxKm(m))) return;
+      var cur = latest[m.veiculoId];
+      if(!cur || m.data>cur.data || (m.data===cur.data && (m.criadoEm||'')>(cur.criadoEm||''))) latest[m.veiculoId] = m;
+    });
+    LASTPREV_BY_VEH = {};
+    MAINT.forEach(function(m){
+      if(m.tipo!=='preventiva' || !hasKm(m)) return;
+      var c = LASTPREV_BY_VEH[m.veiculoId];
+      if(!c || m.data>c.data || (m.data===c.data && m.km>c.km)) LASTPREV_BY_VEH[m.veiculoId] = m;
+    });
+    NEXT = []; NEXT_BY_VEH = {};
+    Object.keys(latest).forEach(function(vid){
+      var v = VBYID[vid]; if(!v) return;
+      var rec = latest[vid];
+      var days = rec.proxima ? diffDays(rec.proxima) : null;
+      var kmLeft = (hasProxKm(rec) && typeof v.odometro==='number') ? rec.proximaKm - v.odometro : null;
+      var tl = days!==null ? levelOf(days) : null;
+      var kl = kmLeft!==null ? levelKm(kmLeft) : null;
+      var level, basis;
+      if(tl && kl){ level = worse(tl,kl); basis = RANK[kl]<RANK[tl] ? 'odometro' : 'data'; }
+      else if(tl){ level = tl; basis = 'data'; }
+      else if(kl){ level = kl; basis = 'odometro'; }
+      else { level = 'sem'; basis = 'odometro'; }
+      var n = {veiculo:v, rec:rec, days:days, kmLeft:kmLeft, level:level, basis:basis};
+      NEXT.push(n); NEXT_BY_VEH[vid] = n;
+    });
+    NEXT.sort(function(a,b){
+      var ra = RANK[a.level]===undefined ? 9 : RANK[a.level], rb = RANK[b.level]===undefined ? 9 : RANK[b.level];
+      if(ra!==rb) return ra-rb;
+      var da = a.days===null ? 1e9 : a.days, db = b.days===null ? 1e9 : b.days;
+      if(da!==db) return da-db;
+      return (a.kmLeft===null ? 1e9 : a.kmLeft) - (b.kmLeft===null ? 1e9 : b.kmLeft);
+    });
+  }
+  function countLevel(l){ return NEXT.filter(function(n){ return n.level===l; }).length; }
+  function tipoLabel(t){ return t==='preventiva' ? 'Preventiva' : 'Corretiva'; }
+
+  // ---- barra de alerta + navegação ----
+  function renderAlertBar(){
+    var bar = document.getElementById('alertBar');
+    var v = countLevel('vencida'), u = countLevel('urgente'), a = countLevel('atencao'), av = countLevel('aviso');
+    var total = v+u+a+av;
+    var nav = document.getElementById('navCount');
+    if(total===0){
+      bar.className = 'alert-bar'; bar.innerHTML = '';
+      nav.style.display = 'none';
+      return;
+    }
+    var sev = (v+u>0) ? 'vencida' : (a>0 ? 'atencao' : 'aviso');
+    bar.className = 'alert-bar show sev-'+sev;
+    var chips = '';
+    if(v) chips += '<span class="ab-chip"><b>'+v+'</b>'+(v===1?'preventiva vencida':'preventivas vencidas')+'</span>';
+    if(u) chips += '<span class="ab-chip"><b>'+u+'</b>urgente(s): até '+URGENTE_DIAS+' dias ou '+fmtKm(URGENTE_KM)+'</span>';
+    if(a) chips += '<span class="ab-chip"><b>'+a+'</b>em atenção: até '+ATENCAO_DIAS+' dias ou '+fmtKm(ATENCAO_KM)+'</span>';
+    if(av) chips += '<span class="ab-chip"><b>'+av+'</b>em aviso: até '+AVISO_DIAS+' dias ou '+fmtKm(AVISO_KM)+'</span>';
+    bar.innerHTML = '<span class="ab-title">'+ICON[sev]+'Manutenção preventiva requer atenção</span>'+
+      '<span class="ab-chips">'+chips+'</span>'+
+      '<button type="button" class="btn" data-mact="go-alerts">Ver alertas</button>';
+    nav.textContent = total;
+    nav.className = 'count' + (sev==='vencida' ? '' : ' warn');
+    nav.style.display = '';
+    nav.setAttribute('aria-label', total+' alertas');
+  }
+
+  // ---- quadros-resumo (filtros) ----
+  function renderMaintTiles(){
+    var keys = ['vencida','urgente','atencao','aviso','ok'];
+    var k = {vencida:'critical', urgente:'critical', atencao:'warning', aviso:'total', ok:'good'};
+    var sub = {
+      vencida:'data ou odômetro ultrapassado',
+      urgente:'até '+URGENTE_DIAS+' dias ou '+fmtKm(URGENTE_KM),
+      atencao:'até '+ATENCAO_DIAS+' dias ou '+fmtKm(ATENCAO_KM),
+      aviso:'até '+AVISO_DIAS+' dias ou '+fmtKm(AVISO_KM),
+      ok:'dentro do prazo'
+    };
+    document.getElementById('maintTiles').innerHTML = keys.map(function(l){
+      return '<button type="button" class="kpi'+(mLevel===l?' active':'')+'" data-k="'+k[l]+'" data-mact="tile" data-level="'+l+'" aria-pressed="'+(mLevel===l)+'">'+
+        '<span class="label">'+LV_LABEL[l]+'</span><span class="value">'+countLevel(l)+'</span>'+
+        '<span class="pct">'+sub[l]+'</span></button>';
+    }).join('');
+  }
+
+  // ---- próximas preventivas ----
+  function renderNextList(){
+    var list = NEXT.filter(function(n){ return !mLevel || n.level===mLevel; });
+    var semPrev = STATE.items.filter(function(v){ return !NEXT_BY_VEH[v.id]; }).length;
+    var cnt = document.getElementById('nextCount');
+    var parts = [];
+    parts.push(list.length+' '+(list.length===1?'item com preventiva programada':'itens com preventiva programada')+(mLevel?' · filtro: '+LV_LABEL[mLevel]:''));
+    if(STATE.items.length) parts.push(semPrev+' sem preventiva programada');
+    var semLeit = NEXT.filter(function(n){ return n.level==='sem'; }).length;
+    if(semLeit) parts.push(semLeit+' aguardando leitura de odômetro');
+    cnt.innerHTML = esc(parts.join(' · ')) + (mLevel ? ' <button type="button" class="clear-btn" data-mact="clear-level">Limpar filtro</button>' : '');
+    var box = document.getElementById('nextList');
+    if(NEXT.length===0){
+      box.innerHTML = '<div class="m-empty"><b>Nenhuma preventiva programada ainda.</b><br>Use “+ Registrar manutenção”, escolha o tipo <i>Preventiva</i> e informe a próxima por data, por odômetro ou por ambos — os alertas passam a valer a partir daí.</div>';
+      return;
+    }
+    if(list.length===0){
+      box.innerHTML = '<div class="m-empty">Nenhum item neste nível de alerta.</div>';
+      return;
+    }
+    var canEdit = !STATE.readOnly;
+    box.innerHTML = '<div class="nhead"><span>Item</span><span>Última preventiva executada</span><span>Próxima prevista</span><span>Situação do prazo</span><span></span></div>'+
+      '<div class="nlist">'+list.map(function(n){
+        return '<div class="nrow">'+
+          '<div><div class="n-nom">'+esc(vShort(n.veiculo))+'</div><div class="n-sub">'+esc(vSub(n.veiculo))+'</div></div>'+
+          '<div class="n-last"><span class="mono">'+fmtD(n.rec.data)+'</span>'+kmTag(n.rec)+'<div class="clamp">'+esc(n.rec.descricao)+'</div></div>'+
+          '<div class="n-date n-goal">'+(n.rec.proxima ? '<div>'+fmtD(n.rec.proxima)+'</div>' : '')+(hasProxKm(n.rec) ? '<div>'+fmtKm(n.rec.proximaKm)+'</div>'+(typeof n.veiculo.odometro==='number' ? '<div class="n-sub">atual '+fmtKm(n.veiculo.odometro)+'</div>' : '') : '')+'</div>'+
+          '<div>'+badgeHtml(n)+'</div>'+
+          '<div class="n-act">'+(canEdit ? '<button type="button" class="btn" data-mact="new-for" data-vid="'+esc(n.veiculo.id)+'">Registrar</button><button type="button" class="btn" data-mact="mh-edit" data-id="'+esc(n.rec.id)+'" title="Editar a última preventiva deste item">Editar</button>' : '')+'</div>'+
+        '</div>';
+      }).join('')+'</div>';
+  }
+
+  // ---- histórico ----
+  function renderHistory(){
+    var q = mQuery.trim().toLowerCase();
+    var rows = MAINT.filter(function(m){
+      if(mTipo && m.tipo!==mTipo) return false;
+      if(q){
+        var hay = [labelFor(m), subFor(m), m.descricao, m.os, m.mecanico].join(' ').toLowerCase();
+        if(hay.indexOf(q)===-1) return false;
+      }
+      return true;
+    }).sort(function(a,b){
+      if(a.data!==b.data) return a.data<b.data ? 1 : -1;
+      return (b.criadoEm||'')<(a.criadoEm||'') ? -1 : 1;
+    });
+    var shown = (mShowAll || q || mTipo) ? rows : rows.slice(0,25);
+    document.getElementById('histCount').textContent = rows.length+' de '+MAINT.length+' registros'+(shown.length<rows.length ? ' · exibindo os '+shown.length+' mais recentes' : '');
+    var box = document.getElementById('maintHistory');
+    if(MAINT.length===0){
+      box.innerHTML = '<div class="m-empty"><b>Nenhuma manutenção registrada ainda.</b><br>Registre a primeira com “+ Registrar manutenção”. Cada registro guarda a data, o odômetro, o mecânico, o que foi executado e, nas preventivas, a próxima por data ou odômetro.</div>';
+      return;
+    }
+    if(rows.length===0){ box.innerHTML = '<div class="m-empty">Nenhum registro corresponde à busca.</div>'; return; }
+    var canEdit = !STATE.readOnly;
+    box.innerHTML = shown.map(function(m){
+      var prev = m.tipo==='preventiva';
+      var nx = NEXT_BY_VEH[m.veiculoId];
+      var meta = [];
+      if(m.os) meta.push('<span>OS/Doc.: '+esc(m.os)+'</span>');
+      if(m.mecanico) meta.push('<span>Mecânico: <b style="font-weight:500;color:var(--ink-secondary);">'+esc(m.mecanico)+'</b></span>');
+      if(prev && (m.proxima || hasProxKm(m))){
+        if(nx && nx.rec.id===m.id) meta.push('<span>Próxima prevista: <span class="mono">'+goalText(m)+'</span></span>'+badgeHtml(nx));
+        else meta.push('<span>Próxima prevista era <span class="mono">'+goalText(m)+'</span> (substituída por registro mais recente)</span>');
+      }
+      var actions = '';
+      if(canEdit){
+        actions = (mConfirmDel===m.id) ?
+          '<div class="confirm-box" style="margin-top:8px;"><span>Excluir este registro de manutenção? Essa ação não pode ser desfeita.</span><span class="confirm-box-btns">'+
+            '<button type="button" class="btn" data-mact="mh-del-no">Cancelar</button>'+
+            '<button type="button" class="btn btn-danger" data-mact="mh-del-yes" data-id="'+esc(m.id)+'">Sim, excluir</button></span></div>'
+          :
+          '<div class="mh-actions"><button type="button" class="btn" data-mact="mh-edit" data-id="'+esc(m.id)+'">Editar</button>'+
+            '<button type="button" class="btn btn-danger" data-mact="mh-del" data-id="'+esc(m.id)+'">Excluir</button></div>';
+      }
+      return '<div class="mh">'+
+        '<div class="mh-top"><span class="tipo'+(prev?' prev':'')+'">'+(prev?'Preventiva':'Corretiva')+'</span>'+
+          '<span class="mh-date">'+fmtD(m.data)+'</span>'+(hasKm(m) ? '<span class="mh-date" title="Odômetro na execução">'+fmtKm(m.km)+'</span>' : '')+'<span class="mh-veh">'+esc(labelFor(m))+'</span></div>'+
+        '<p class="mh-desc">'+esc(m.descricao)+'</p>'+
+        (meta.length ? '<div class="mh-meta">'+meta.join('')+'</div>' : '')+
+        actions+'</div>';
+    }).join('') + (shown.length<rows.length ? '<div style="padding:12px 0;text-align:center;"><button type="button" class="btn" data-mact="show-all">Mostrar todos os '+rows.length+' registros</button></div>' : '');
+  }
+
+  // ---- controle de odômetro ----
+  function renderOdo(){
+    var q = odoQuery.trim().toLowerCase();
+    var rows = STATE.items.filter(function(v){
+      if(odoCat==='__sem'){ if(typeof v.odometro==='number') return false; }
+      else if(odoCat && v.categoria!==odoCat) return false;
+      if(q && [v.nomenclatura, v.marca, v.modelo, v.eb, v.localizacao].join(' ').toLowerCase().indexOf(q)===-1) return false;
+      return true;
+    }).sort(function(a,b){
+      var ha = typeof a.odometro==='number', hb = typeof b.odometro==='number';
+      if(ha!==hb) return ha ? -1 : 1;
+      if(ha && a.odometro!==b.odometro) return b.odometro-a.odometro;
+      return (a.nomenclatura||'').localeCompare(b.nomenclatura||'');
+    });
+    var com = STATE.items.filter(function(v){ return typeof v.odometro==='number'; }).length;
+    var chips = [{k:'',l:'Todos'}].concat(CATS.map(function(c){ return {k:c,l:CAT_SHORT[c]}; })).concat([{k:'__sem',l:'Sem leitura'}]);
+    document.getElementById('odoChips').innerHTML = chips.map(function(c){
+      return '<button type="button" class="chip'+((c.k||null)===odoCat?' active':'')+'" data-mact="odo-cat" data-cat="'+esc(c.k)+'">'+c.l+'</button>';
+    }).join('');
+    var limit = 60;
+    var shown = (odoAll || q || odoEditId) ? rows : rows.slice(0, limit);
+    document.getElementById('odoCount').textContent = rows.length+' de '+STATE.items.length+' itens · '+com+' com leitura de odômetro registrada'+(shown.length<rows.length ? ' · exibindo '+shown.length : '');
+    var box = document.getElementById('odoList');
+    if(STATE.items.length===0){ box.innerHTML = '<div class="m-empty">Nenhum item cadastrado.</div>'; return; }
+    if(rows.length===0){ box.innerHTML = '<div class="m-empty">Nenhum item corresponde ao filtro.</div>'; return; }
+    var canEdit = !STATE.readOnly;
+    box.innerHTML = '<div class="orow head"><span>Item</span><span>Odômetro atual</span><span>Atualizado em</span><span>Desde a última preventiva</span><span></span></div>'+
+      shown.map(function(v){
+        var has = typeof v.odometro==='number';
+        var lp = LASTPREV_BY_VEH[v.id];
+        var since = '<span class="o-none">—</span>';
+        if(has && lp && v.odometro>=lp.km) since = '<span class="mono">'+fmtKm(v.odometro-lp.km)+'</span> <span class="o-since">(preventiva de '+fmtD(lp.data)+' a '+fmtKm(lp.km)+')</span>';
+        else if(!lp) since = '<span class="o-none">sem preventiva com odômetro</span>';
+        var row = '<div class="orow">'+
+          '<div><div class="n-nom">'+esc(vShort(v))+'</div><div class="n-sub">'+esc(vSub(v))+'</div></div>'+
+          '<div class="o-km">'+(has ? fmtKm(v.odometro) : '<span class="o-none">sem leitura</span>')+'</div>'+
+          '<div class="o-date o-since">'+(has && v.odometroData ? fmtD(v.odometroData) : '—')+'</div>'+
+          '<div>'+since+'</div>'+
+          '<div>'+(canEdit && odoEditId!==v.id ? '<button type="button" class="btn" style="padding:6px 10px;font-size:12px;" data-mact="odo-edit" data-id="'+esc(v.id)+'">'+(has?'Atualizar':'Informar')+'</button>' : '')+'</div>'+
+        '</div>';
+        var edit = '';
+        if(canEdit && odoEditId===v.id){
+          edit = '<div class="o-edit"><label for="odo-input">Nova leitura (km)</label>'+
+            '<input type="text" id="odo-input" inputmode="numeric" value="'+esc(numStr(v.odometro))+'" placeholder="Ex.: 48.250">'+
+            '<button type="button" class="btn btn-primary" data-mact="odo-save" data-id="'+esc(v.id)+'">Salvar leitura</button>'+
+            '<button type="button" class="btn" data-mact="odo-cancel">Cancelar</button>'+
+            '<span class="form-msg" id="odo-msg"></span></div>';
+        }
+        return '<div class="oitem">'+row+edit+'</div>';
+      }).join('')+
+      (shown.length<rows.length ? '<div style="padding:12px 0;text-align:center;"><button type="button" class="btn" data-mact="odo-all">Mostrar todos os '+rows.length+' itens</button></div>' : '');
+    if(odoEditId){ var inp = document.getElementById('odo-input'); if(inp && document.activeElement!==inp){ inp.focus(); inp.select(); } }
+  }
+  function saveOdo(id){
+    var v = VBYID[id]; var msg = document.getElementById('odo-msg');
+    function err(t){ if(msg){ msg.textContent = t; msg.className = 'form-msg err'; } }
+    if(!v || !dbApi) return;
+    var km = parseKm(document.getElementById('odo-input').value);
+    if(km==='' || isNaN(km)) return err('Informe a leitura em km, apenas números (ex.: 48250).');
+    if(typeof v.odometro==='number' && km<v.odometro && !odoWarn){
+      odoWarn = true;
+      return err('Menor que a leitura atual ('+fmtKm(v.odometro)+'). Clique em Salvar leitura de novo para confirmar.');
+    }
+    if(msg){ msg.textContent = 'Salvando…'; msg.className = 'form-msg'; }
+    var kmOld = v.odometro;
+    dbApi.collection('veiculos').doc(id).update({odometro:km, odometroData:todayStr()}).then(function(){
+      logAudit('editou','odometro', itemLabel(v), id, ['Odômetro: '+audVal('odometro', kmOld)+' → '+audVal('odometro', km)]);
+      odoEditId = null; odoWarn = false; renderOdo();
+      showToast('Odômetro atualizado: '+vShort(v)+' — '+fmtKm(km)+'.');
+    }).catch(function(e){ err('Não foi possível salvar ('+(e && e.code || 'erro')+').'); });
+  }
+
+  function renderMaintTabs(){
+    document.getElementById('tabProx').className = mTab==='prox' ? 'active' : '';
+    document.getElementById('tabHist').className = mTab==='hist' ? 'active' : '';
+    document.getElementById('tabOdo').className = mTab==='odo' ? 'active' : '';
+    document.getElementById('tabOdo').setAttribute('aria-selected', mTab==='odo');
+    document.getElementById('paneOdo').style.display = mTab==='odo' ? '' : 'none';
+    document.getElementById('tabProx').setAttribute('aria-selected', mTab==='prox');
+    document.getElementById('tabHist').setAttribute('aria-selected', mTab==='hist');
+    document.getElementById('paneProx').style.display = mTab==='prox' ? '' : 'none';
+    document.getElementById('paneHist').style.display = mTab==='hist' ? '' : 'none';
+  }
+  function renderMaint(){
+    renderMaintTiles();
+    renderMaintTabs();
+    renderNextList();
+    renderHistory();
+    if(!odoEditId) renderOdo();
+    var chips = document.querySelectorAll('#maintTipoChips .chip');
+    Array.prototype.forEach.call(chips, function(c){
+      c.className = 'chip' + ((c.getAttribute('data-tipo')||null)===mTipo ? ' active' : '');
+    });
+    document.getElementById('maintAddBtn').style.display = STATE.readOnly ? 'none' : '';
+  }
+
+  // ---- toast ----
+  function showToast(text){
+    var t = document.getElementById('maintToast');
+    t.textContent = text; t.className = 'toast show';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.className = 'toast'; }, 4000);
+  }
+
+  // ---- formulário de registro ----
+  function vehicleOptionsHtml(filterText, selectedId){
+    var q = (filterText||'').trim().toLowerCase();
+    var html = '', any = false;
+    CATS.forEach(function(cat){
+      var opts = STATE.items.filter(function(v){
+        if(v.categoria!==cat) return false;
+        if(v.id===selectedId) return true;
+        if(!q) return true;
+        return [v.nomenclatura, v.marca, v.modelo, v.eb, v.localizacao].join(' ').toLowerCase().indexOf(q)>-1;
+      }).sort(function(a,b){ return (a.nomenclatura||'').localeCompare(b.nomenclatura||''); });
+      if(!opts.length) return;
+      any = true;
+      html += '<optgroup label="'+esc(CAT_LABEL[cat])+'">'+opts.map(function(v){
+        return '<option value="'+esc(v.id)+'"'+(v.id===selectedId?' selected':'')+'>'+esc(vShort(v)+(v.eb?' · EB '+v.eb:'')+(v.localizacao?' · '+v.localizacao:''))+'</option>';
+      }).join('')+'</optgroup>';
+    });
+    return (selectedId ? '' : '<option value="">Selecione o item…</option>') + html + (any ? '' : '<option value="" disabled>Nenhum item encontrado</option>');
+  }
+  function openMaintForm(opts){
+    if(STATE.readOnly || !dbApi) return;
+    MFORM = opts;
+    var rec = opts.mode==='edit' ? MAINT.filter(function(m){ return m.id===opts.id; })[0] : null;
+    if(opts.mode==='edit' && !rec){ MFORM = null; return; }
+    var vid = rec ? rec.veiculoId : (opts.veiculoId || '');
+    var tipo = rec ? rec.tipo : 'preventiva';
+    var data = rec ? rec.data : todayStr();
+    var defProx = rec ? (rec.proxima||'') : addDays(data, PREV_INTERVALO_DIAS);
+    var wrap = document.getElementById('maintFormWrap');
+    wrap.innerHTML = '<div class="form-box m-form"><h3>'+(rec ? 'Editar registro de manutenção' : 'Registrar manutenção')+'</h3>'+
+      '<div class="form-grid">'+
+        '<div class="field full"><label for="m-vsearch">Item (viatura / equipamento)</label>'+
+          '<input type="text" id="m-vsearch" placeholder="Filtrar por nome, marca, EB ou localização…" autocomplete="off" style="margin-bottom:6px;">'+
+          '<select id="m-veiculo">'+vehicleOptionsHtml('', vid)+'</select></div>'+
+        '<div class="field"><label for="m-tipo">Tipo</label><select id="m-tipo">'+
+          '<option value="preventiva"'+(tipo==='preventiva'?' selected':'')+'>Preventiva</option>'+
+          '<option value="corretiva"'+(tipo==='corretiva'?' selected':'')+'>Corretiva</option></select></div>'+
+        '<div class="field"><label for="m-data">Data de realização</label><input type="date" id="m-data" value="'+esc(data)+'"></div>'+
+        '<div class="field"><label for="m-os">OS / documento (opcional)</label><input type="text" id="m-os" value="'+esc(rec?rec.os:'')+'"></div>'+
+        '<div class="field"><label for="m-km">Odômetro na execução (km)</label><input type="text" id="m-km" inputmode="numeric" value="'+esc(rec?numStr(rec.km):'')+'" placeholder="Ex.: 48.250"><span class="form-msg" id="m-kmhint" style="margin:0;"></span></div>'+
+        '<div class="field"><label for="m-mec">Mecânico responsável</label><input type="text" id="m-mec" list="mecOptions" autocomplete="off" value="'+esc(rec?rec.mecanico:'')+'" placeholder="Nome / posto-graduação">'+
+          '<datalist id="mecOptions">'+mecOptionsHtml()+'</datalist></div>'+
+        '<div class="field full" id="m-proxwrap"><label>Próxima preventiva: por tempo, por odômetro ou ambos (vale o que vencer primeiro)</label>'+
+          '<div class="prox-grid">'+
+            '<div><span class="sublabel">Data prevista</span><input type="date" id="m-proxima" value="'+esc(defProx)+'">'+
+              '<div class="qchips"><button type="button" data-mact="plus" data-d="45">+45 dias</button><button type="button" data-mact="plus" data-m="3">+3 meses</button><button type="button" data-mact="plus" data-m="6">+6 meses</button><button type="button" data-mact="plus" data-m="12">+12 meses</button></div></div>'+
+            '<div><span class="sublabel">Odômetro previsto (km)</span><input type="text" id="m-proxkm" inputmode="numeric" value="'+esc(rec?numStr(rec.proximaKm):'')+'" placeholder="Ex.: 53.000">'+
+              '<div class="qchips"><button type="button" data-mact="plus-km" data-k="5000">+5.000 km</button><button type="button" data-mact="plus-km" data-k="10000">+10.000 km</button></div></div>'+
+          '</div>'+
+          '<span class="form-msg" style="margin:6px 0 0;">Para controlar só por odômetro, apague a data. Para controlar só por data, deixe o odômetro vazio.</span></div>'+
+        '<div class="field full"><label for="m-desc">O que foi executado</label><textarea id="m-desc" placeholder="Ex.: troca de óleo e filtros, revisão de freios, substituição da bateria…">'+esc(rec?rec.descricao:'')+'</textarea></div>'+
+      '</div>'+
+      '<div class="form-actions"><span class="form-msg" id="m-msg"></span>'+
+        '<button type="button" class="btn" data-mact="m-cancel">Cancelar</button>'+
+        '<button type="button" class="btn btn-primary" data-mact="m-save" id="m-save">'+(rec?'Salvar alterações':'Salvar registro')+'</button></div></div>';
+    syncTipoUi(); syncKmHint();
+    document.getElementById('maintFormWrap').scrollIntoView({behavior: reduceMotion()?'auto':'smooth', block:'center'});
+    var first = document.getElementById(vid ? 'm-desc' : 'm-vsearch');
+    if(first) first.focus({preventScroll:true});
+  }
+  function closeMaintForm(){
+    MFORM = null;
+    document.getElementById('maintFormWrap').innerHTML = '';
+  }
+  function mecOptionsHtml(){
+    var seen = {};
+    MAINT.forEach(function(m){ if(m.mecanico) seen[m.mecanico] = 1; });
+    return Object.keys(seen).sort().map(function(n){ return '<option value="'+esc(n)+'">'; }).join('');
+  }
+  function syncKmHint(){
+    var h = document.getElementById('m-kmhint'), sel = document.getElementById('m-veiculo');
+    if(!h || !sel) return;
+    var v = VBYID[sel.value];
+    if(!v){ h.textContent = ''; return; }
+    h.textContent = (typeof v.odometro==='number') ? 'Leitura atual do item: '+fmtKm(v.odometro)+(v.odometroData ? ' ('+fmtD(v.odometroData)+')' : '') : 'Item sem leitura de odômetro registrada.';
+  }
+  function syncTipoUi(){
+    var t = document.getElementById('m-tipo'); if(!t) return;
+    document.getElementById('m-proxwrap').style.display = t.value==='preventiva' ? '' : 'none';
+  }
+  function reduceMotion(){
+    try{ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; }
+  }
+  function saveMaint(){
+    var msg = document.getElementById('m-msg');
+    function err(t){ msg.textContent = t; msg.className = 'form-msg err'; }
+    var vid = document.getElementById('m-veiculo').value;
+    var tipo = document.getElementById('m-tipo').value;
+    var data = document.getElementById('m-data').value;
+    var prox = document.getElementById('m-proxima').value;
+    var proxKm = parseKm(document.getElementById('m-proxkm').value);
+    var os = document.getElementById('m-os').value.trim();
+    var desc = document.getElementById('m-desc').value.trim();
+    var km = parseKm(document.getElementById('m-km').value);
+    var mec = document.getElementById('m-mec').value.trim();
+    var recOld = (MFORM && MFORM.mode==='edit') ? MAINT.filter(function(m){ return m.id===MFORM.id; })[0] : null;
+    if(!vid || !VBYID[vid]) return err('Selecione o item.');
+    if(!parseD(data)) return err('Informe a data de realização.');
+    if(data>todayStr()) return err('A data de realização não pode ser futura.');
+    if(!desc) return err('Descreva o que foi executado.');
+    if(km!=='' && isNaN(km)) return err('Odômetro inválido. Use apenas números (ex.: 48250).');
+    if(!mec && !(recOld && !recOld.mecanico)) return err('Informe o mecânico que realizou a manutenção.');
+    if(tipo==='preventiva'){
+      if(proxKm!=='' && isNaN(proxKm)) return err('Odômetro previsto inválido. Use apenas números (ex.: 53000).');
+      if(!parseD(prox) && proxKm==='') return err('Informe a próxima preventiva: a data prevista, o odômetro previsto ou ambos.');
+      if(parseD(prox) && prox<=data) return err('A data da próxima preventiva deve ser depois da data de realização.');
+      if(proxKm!=='' && km!=='' && proxKm<=km) return err('O odômetro previsto deve ser maior que o odômetro na execução.');
+      if(!parseD(prox)) prox = '';
+    } else { prox = ''; proxKm = ''; }
+    var now = new Date().toISOString();
+    var doc = {
+      veiculoId: vid,
+      veiculoLabel: vShort(VBYID[vid]) + (VBYID[vid].eb ? ' · EB '+VBYID[vid].eb : ''),
+      tipo: tipo, data: data, descricao: desc, os: os, km: km, mecanico: mec, proxima: prox, proximaKm: proxKm, atualizadoEm: now
+    };
+    var btn = document.getElementById('m-save');
+    btn.disabled = true; msg.textContent = 'Salvando…'; msg.className = 'form-msg';
+    var col = dbApi.collection('manutencoes');
+    var p;
+    if(MFORM && MFORM.mode==='edit'){ p = col.doc(MFORM.id).update(doc); }
+    else { doc.criadoEm = now; p = col.add(doc); }
+    p.then(function(ref){
+      var edited = MFORM && MFORM.mode==='edit';
+      var auId = edited ? MFORM.id : (ref && ref.id);
+      var auL = edited ? audDiff(recOld || {}, doc, MFIELD_LBL) : audSnap(doc, MFIELD_LBL);
+      if(!edited || auL.length) logAudit(edited ? 'editou' : 'adicionou', 'manutencao', doc.veiculoLabel, auId, auL);
+      closeMaintForm();
+      var base = edited ? 'Registro atualizado.' : (tipo==='preventiva' ? 'Preventiva registrada. Próxima prevista: '+[prox ? fmtD(prox) : '', proxKm!=='' ? fmtKm(proxKm) : ''].filter(Boolean).join(' ou ')+'.' : 'Corretiva registrada.');
+      var veh = VBYID[vid];
+      var bump = km!=='' && veh && (typeof veh.odometro!=='number' || km>veh.odometro) && data>=(veh.odometroData||'');
+      if(!bump){ showToast(base); return; }
+      return dbApi.collection('veiculos').doc(vid).update({odometro:km, odometroData:data}).then(function(){
+        logAudit('editou','odometro', itemLabel(veh), vid, ['Odômetro: '+audVal('odometro', veh.odometro)+' → '+audVal('odometro', km)+' (a partir de registro de manutenção)']);
+        showToast(base+' Odômetro do item atualizado para '+fmtKm(km)+'.');
+      }).catch(function(){ showToast(base+' Não foi possível atualizar o odômetro do item.'); });
+    }).catch(function(e){
+      btn.disabled = false;
+      err('Não foi possível salvar ('+(e && e.code || 'erro')+'). Tente novamente.');
+    });
+  }
+  function refreshRecordViews(){
+    renderHistory();
+    if(!editingId) renderTable();
+  }
+  function deleteMaint(id){
+    if(STATE.readOnly || !dbApi) return;
+    var oldM = MAINT.filter(function(m){ return m.id===id; })[0] || {};
+    dbApi.collection('manutencoes').doc(id).delete().then(function(){
+      logAudit('excluiu','manutencao', oldM.veiculoLabel || '', id, audSnap(oldM, MFIELD_LBL));
+      mConfirmDel = null; refreshRecordViews(); showToast('Registro excluído.');
+    }).catch(function(e){
+      mConfirmDel = null; refreshRecordViews();
+      showToast('Não foi possível excluir ('+(e && e.code || 'erro')+').');
+    });
+  }
+  function scrollToId(id){
+    var el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior: reduceMotion()?'auto':'smooth', block:'start'});
+  }
+
+  // ---- eventos (delegados) ----
+  var wrapEl = document.querySelector('.wrap');
+  wrapEl.addEventListener('click', function(ev){
+    var el = ev.target.closest ? ev.target.closest('[data-mact]') : null;
+    if(!el) return;
+    var a = el.getAttribute('data-mact');
+    if(a==='nav'){ scrollToId(el.getAttribute('data-target')); }
+    else if(a==='go-alerts'){
+      mLevel = null; mTab = 'prox';
+      renderMaint(); scrollToId('secManut');
+    }
+    else if(a==='add'){ openMaintForm({mode:'new'}); }
+    else if(a==='new-for'){ openMaintForm({mode:'new', veiculoId: el.getAttribute('data-vid')}); }
+    else if(a==='tile'){ var l = el.getAttribute('data-level'); mLevel = (mLevel===l) ? null : l; mTab = 'prox'; renderMaint(); }
+    else if(a==='clear-level'){ mLevel = null; renderMaint(); }
+    else if(a==='tab'){ mTab = el.getAttribute('data-tab'); renderMaintTabs(); }
+    else if(a==='tipo'){ mTipo = el.getAttribute('data-tipo') || null; renderMaint(); }
+    else if(a==='show-all'){ mShowAll = true; renderHistory(); }
+    else if(a==='mh-edit'){ openMaintForm({mode:'edit', id: el.getAttribute('data-id')}); }
+    else if(a==='mh-del'){ mConfirmDel = el.getAttribute('data-id'); refreshRecordViews(); }
+    else if(a==='mh-del-no'){ mConfirmDel = null; refreshRecordViews(); }
+    else if(a==='plus-km'){
+      var base = parseKm(document.getElementById('m-km').value);
+      if(base==='' || isNaN(base)){ var vv = VBYID[document.getElementById('m-veiculo').value]; base = (vv && typeof vv.odometro==='number') ? vv.odometro : ''; }
+      var me = document.getElementById('m-msg');
+      if(base===''){ me.textContent = 'Informe o odômetro na execução para usar o atalho.'; me.className = 'form-msg err'; }
+      else { document.getElementById('m-proxkm').value = String(base + parseInt(el.getAttribute('data-k'),10)); me.textContent = ''; me.className = 'form-msg'; }
+    }
+    else if(a==='mh-del-yes'){ el.disabled = true; el.textContent = 'Excluindo…'; deleteMaint(el.getAttribute('data-id')); }
+    else if(a==='plus'){
+      var d = document.getElementById('m-data').value || todayStr();
+      var dd = el.getAttribute('data-d');
+      document.getElementById('m-proxima').value = dd ? addDays(d, parseInt(dd,10)) : addMonths(d, parseInt(el.getAttribute('data-m'),10));
+    }
+    else if(a==='odo-edit'){ odoEditId = el.getAttribute('data-id'); odoWarn = false; renderOdo(); }
+    else if(a==='odo-cancel'){ odoEditId = null; odoWarn = false; renderOdo(); }
+    else if(a==='odo-save'){ saveOdo(el.getAttribute('data-id')); }
+    else if(a==='odo-cat'){ odoCat = el.getAttribute('data-cat') || null; odoEditId = null; renderOdo(); }
+    else if(a==='odo-all'){ odoAll = true; renderOdo(); }
+    else if(a==='m-cancel'){ closeMaintForm(); }
+    else if(a==='m-save'){ saveMaint(); }
+  });
+  wrapEl.addEventListener('change', function(ev){
+    if(!ev.target) return;
+    if(ev.target.id==='m-tipo') syncTipoUi();
+    else if(ev.target.id==='m-veiculo') syncKmHint();
+  });
+  wrapEl.addEventListener('keydown', function(ev){
+    if(ev.key==='Enter' && ev.target && ev.target.id==='odo-input'){ ev.preventDefault(); saveOdo(odoEditId); }
+  });
+  wrapEl.addEventListener('input', function(ev){
+    if(!ev.target) return;
+    if(ev.target.id==='m-vsearch'){
+      var sel = document.getElementById('m-veiculo');
+      sel.innerHTML = vehicleOptionsHtml(ev.target.value, '');
+      // seleciona automaticamente se houver um único resultado
+      var opts = sel.querySelectorAll('option[value]:not([value=""])');
+      if(opts.length===1) sel.value = opts[0].value;
+    } else if(ev.target.id==='maintSearch'){
+      mQuery = ev.target.value; renderHistory();
+    } else if(ev.target.id==='odoSearch'){
+      odoQuery = ev.target.value; odoEditId = null; renderOdo();
+    }
+  });
+
+  // atualiza alertas ao virar o dia / voltar para a aba
+  var lastDay = todayStr();
+  function recheckDay(){
+    lastDay = todayStr();
+    renderAll({skipTable: !!editingId});
+  }
+  setInterval(recheckDay, 10*60*1000);
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) recheckDay(); });
+
+
+  // ---- bloco "Manutenção" no detalhe de cada item ----
+  function rowBadge(r){
+    var nx = NEXT_BY_VEH[r.id];
+    return (nx && nx.level!=='ok') ? '<div>'+badgeHtml(nx, true)+'</div>' : '';
+  }
+  function maintBoxHtml(r){
+    var nx = NEXT_BY_VEH[r.id];
+    var recs = MAINT.filter(function(m){ return m.veiculoId===r.id; }).sort(function(a,b){
+      if(a.data!==b.data) return a.data<b.data ? 1 : -1;
+      return (b.criadoEm||'')<(a.criadoEm||'') ? -1 : 1;
+    });
+    var head = '<div class="mbox-head"><b>Manutenção</b><span>'+
+      (nx ? 'Próxima preventiva: <span class="mono">'+goalText(nx.rec)+'</span> '+badgeHtml(nx) : 'Sem preventiva programada')+'</span>'+
+      (STATE.readOnly ? '' : '<button type="button" class="btn" style="padding:5px 10px;font-size:12px;" data-act="maint-new-for" data-id="'+esc(r.id)+'">Registrar manutenção</button>')+'</div>';
+    var list = recs.length ? '<ul>'+recs.slice(0,3).map(function(m){
+      var acts = '';
+      if(!STATE.readOnly){
+        acts = (mConfirmDel===m.id)
+          ? '<div class="confirm-box"><span>Excluir este registro de manutenção? Essa ação não pode ser desfeita.</span><span class="confirm-box-btns">'+
+              '<button type="button" class="btn" data-mact="mh-del-no">Cancelar</button>'+
+              '<button type="button" class="btn btn-danger" data-mact="mh-del-yes" data-id="'+esc(m.id)+'">Sim, excluir</button></span></div>'
+          : '<span class="li-actions"><button type="button" class="btn" data-mact="mh-edit" data-id="'+esc(m.id)+'">Editar</button>'+
+              '<button type="button" class="btn btn-danger" data-mact="mh-del" data-id="'+esc(m.id)+'">Excluir</button></span>';
+      }
+      return '<li><span><span class="tipo'+(m.tipo==='preventiva'?' prev':'')+'">'+tipoLabel(m.tipo)+'</span> <span class="mono">'+fmtD(m.data)+'</span>'+kmTag(m)+' — '+esc(m.descricao)+(m.mecanico ? ' · Mec.: '+esc(m.mecanico) : '')+'</span>'+acts+'</li>';
+    }).join('')+'</ul>'+(recs.length>3 ? '<div style="margin-top:6px;color:var(--ink-muted);">+ '+(recs.length-3)+' registro(s) no histórico</div>' : '')
+      : '<div style="color:var(--ink-muted);">Nenhuma manutenção registrada para este item.</div>';
+    return '<div class="mbox">'+head+odoLine(r)+list+'</div>';
+  }
+
+  // ---------------- global render ----------------
+  function renderAll(opts){
+    refreshMaint();
+    renderKPIs();
+    renderCatBreakdown();
+    renderCauses();
+    renderLocations();
+    renderChips();
+    if(!(opts && opts.skipTable)) renderTable();
+    renderAlertBar();
+    renderMaint();
+  }
+
+  document.getElementById('searchInput').addEventListener('input', function(e){
+    filter.q = e.target.value;
+    renderTable();
+  });
+  document.getElementById('sortSel').addEventListener('change', renderTable);
+  document.getElementById('clearBtn').addEventListener('click', function(){
+    filter = { cat:null, sit:null, tag:null, loc:null, q:'' };
+    document.getElementById('searchInput').value = '';
+    renderAll();
+  });
+
+  // ---------------- db wiring ----------------
+  function setSync(state, text, sub){
+    var dot = document.getElementById('syncDot');
+    dot.className = 'sync-dot' + (state==='live' ? ' live' : state==='readonly' ? ' readonly' : '');
+    document.getElementById('syncText').textContent = text;
+    document.getElementById('syncSub').textContent = sub || '';
+  }
+
+  // ================= HISTÓRICO DE ALTERAÇÕES (auditoria) =================
+  var AUD = [], audOpen = false, audF = '', audQ = '', audLimit = 50, audEl = null;
+  var FIELD_LBL = {nomenclatura:'Nomenclatura', categoria:'Categoria', marca:'Marca', modelo:'Modelo', ano:'Ano', situacao:'Situação', localizacao:'Localização', cap_tanque:'Capacidade do tanque', consumo:'Consumo', odometro:'Odômetro', motivo:'Motivo', providencia:'Providência / OS'};
+  var MFIELD_LBL = {tipo:'Tipo', data:'Data', descricao:'O que foi executado', os:'OS / documento', km:'Odômetro', mecanico:'Mecânico', proxima:'Próxima preventiva', proximaKm:'Próxima preventiva (km)'};
+  var ENT_LBL = {item:'Item', manutencao:'Manutenção', odometro:'Odômetro', estoque:'Estoque (item)', entrada:'Estoque (entrada)', aplicacao:'Estoque (aplicação)', pedido:'Estoque (pedido)'};
+  var ACAO_LBL = {adicionou:'Adicionou', editou:'Editou', excluiu:'Excluiu'};
+  function audVal(k, v){
+    if(v===undefined || v===null || v==='') return '(vazio)';
+    if(k==='data' || k==='proxima' || k==='previsao') return fmtD(v);
+    if(k==='qtd' || k==='minimo') return typeof v==='number' ? qtyStr(v) : String(v);
+    if(k==='odometro' || k==='km' || k==='proximaKm') return typeof v==='number' ? fmtKm(v) : String(v);
+    if(k==='tipo') return v==='preventiva' ? 'Preventiva' : (v==='corretiva' ? 'Corretiva' : String(v));
+    var t = String(v); return t.length>140 ? t.slice(0,137)+'…' : t;
+  }
+  function audDiff(a, b, labels){
+    var out = [];
+    Object.keys(labels).forEach(function(k){
+      var x = a[k]; if(x===undefined || x===null) x = '';
+      var y = b[k]; if(y===undefined || y===null) y = '';
+      if(String(x)!==String(y)) out.push(labels[k]+': '+audVal(k,x)+' → '+audVal(k,y));
+    });
+    return out;
+  }
+  function audSnap(o, labels){
+    var out = [];
+    Object.keys(labels).forEach(function(k){
+      var v = o[k]; if(v===undefined || v===null || v==='') return;
+      out.push(labels[k]+': '+audVal(k,v));
+    });
+    return out;
+  }
+  function itemLabel(v){ return vShort(v) + (v.eb ? ' · EB '+v.eb : ''); }
+  function logAudit(acao, entidade, alvo, alvoId, linhas){
+    if(!dbApi) return;
+    try{
+      var pr = dbApi.collection('auditoria').add({quando:new Date().toISOString(), acao:acao, entidade:entidade, alvo:alvo||'', alvoId:alvoId||'', linhas:(linhas||[]).slice(0,30)});
+      if(pr && pr.catch) pr.catch(function(){});
+    }catch(e){}
+  }
+  function audWhen(q){
+    var d = new Date(q); if(isNaN(d.getTime())) return '';
+    return pad2(d.getDate())+'/'+pad2(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad2(d.getHours())+':'+pad2(d.getMinutes());
+  }
+  function audRows(){
+    var q = audQ.trim().toLowerCase();
+    return AUD.slice().sort(function(a,b){ return a.quando<b.quando ? 1 : (a.quando>b.quando ? -1 : 0); }).filter(function(e){
+      if(audF && e.acao!==audF) return false;
+      if(!q) return true;
+      return ((e.alvo||'')+' '+(ENT_LBL[e.entidade]||'')+' '+(ACAO_LBL[e.acao]||'')+' '+(e.linhas||[]).join(' ')).toLowerCase().indexOf(q)>=0;
+    });
+  }
+  function renderAud(){
+    if(!audEl) return;
+    var rows = audRows(), shown = rows.slice(0, audLimit);
+    var chips = [['','Tudo'],['adicionou','Adicionou'],['editou','Editou'],['excluiu','Excluiu']].map(function(c){
+      return '<button type="button" class="chip'+(audF===c[0]?' active':'')+'" data-audact="f" data-f="'+c[0]+'">'+c[1]+'</button>';
+    }).join('');
+    var list = shown.length ? shown.map(function(e){
+      var cls = e.acao==='adicionou' ? 'a-add' : (e.acao==='excluiu' ? 'a-del' : 'a-edit');
+      return '<div class="aud-i"><div class="aud-h"><span class="aud-b '+cls+'">'+esc(ACAO_LBL[e.acao]||e.acao)+'</span>'+
+        '<span class="aud-e">'+esc(ENT_LBL[e.entidade]||e.entidade)+'</span><strong>'+esc(e.alvo)+'</strong><time>'+audWhen(e.quando)+'</time></div>'+
+        ((e.linhas && e.linhas.length) ? '<ul>'+e.linhas.map(function(l){ return '<li>'+esc(l)+'</li>'; }).join('')+'</ul>' : '')+'</div>';
+    }).join('') + (shown.length<rows.length ? '<div style="padding:12px 0;text-align:center;"><button type="button" class="btn" data-audact="more">Mostrar mais ('+(rows.length-shown.length)+')</button></div>' : '')
+      : '<div class="aud-empty">'+(AUD.length ? 'Nenhum registro para este filtro.' : 'Nenhuma alteração registrada ainda.')+'</div>';
+    var list0 = audEl.querySelector('.aud-list'), keep = list0 ? list0.scrollTop : 0;
+    var inp = audEl.querySelector('#audQ'), hadFocus = inp && document.activeElement===inp, selS = inp ? inp.selectionStart : 0;
+    audEl.innerHTML = '<div class="aud-box" role="dialog" aria-modal="true" aria-labelledby="audT">'+
+      '<div class="aud-top"><div><h3 id="audT">Histórico de alterações</h3><p>'+AUD.length+' registro(s) · adições, edições, exclusões e leituras de odômetro, do mais recente ao mais antigo.</p></div>'+
+      '<button type="button" class="btn aud-x" data-audact="close">Fechar</button></div>'+
+      '<div class="aud-tools"><input id="audQ" type="search" placeholder="Buscar por item, campo ou valor…" value="'+esc(audQ)+'" aria-label="Buscar no histórico">'+chips+'</div>'+
+      '<div class="aud-list">'+list+'</div></div>';
+    var l1 = audEl.querySelector('.aud-list'); if(l1) l1.scrollTop = keep;
+    if(hadFocus){ var i2 = audEl.querySelector('#audQ'); i2.focus(); try{ i2.setSelectionRange(selS, selS); }catch(e){} }
+  }
+  function openAud(){
+    if(audOpen) return;
+    audOpen = true; audF = ''; audQ = ''; audLimit = 50;
+    audEl = document.createElement('div'); audEl.className = 'aud-ov';
+    document.body.appendChild(audEl);
+    audEl.addEventListener('click', function(ev){
+      if(ev.target===audEl){ closeAud(); return; }
+      var b = ev.target.closest ? ev.target.closest('[data-audact]') : null; if(!b) return;
+      var a = b.getAttribute('data-audact');
+      if(a==='close') closeAud();
+      else if(a==='f'){ audF = b.getAttribute('data-f'); audLimit = 50; renderAud(); }
+      else if(a==='more'){ audLimit += 50; renderAud(); }
+    });
+    audEl.addEventListener('input', function(ev){ if(ev.target && ev.target.id==='audQ'){ audQ = ev.target.value; audLimit = 50; renderAud(); } });
+    audEl.addEventListener('keydown', function(ev){ if(ev.key==='Escape') closeAud(); });
+    renderAud();
+    var f = audEl.querySelector('[data-audact="close"]'); if(f) f.focus();
+  }
+  function closeAud(){
+    audOpen = false;
+    if(audEl && audEl.parentNode) audEl.parentNode.removeChild(audEl);
+    audEl = null;
+    var b = document.getElementById('audBtn'); if(b) b.focus();
+  }
+  document.getElementById('audBtn').addEventListener('click', openAud);
+
+  // ---- ocultar / mostrar os detalhes da manutenção (próximas preventivas, histórico, odômetro) ----
+  var maintHidden = false;
+  try{ maintHidden = localStorage.getItem('maintHidden')==='1'; }catch(e){}
+  function setMaintHidden(v){
+    maintHidden = v;
+    try{ localStorage.setItem('maintHidden', v ? '1' : '0'); }catch(e){}
+    applyMaintToggle();
+  }
+  function applyMaintToggle(){
+    var btn = document.getElementById('maintToggle');
+    document.getElementById('maintBody').hidden = maintHidden;
+    btn.textContent = maintHidden ? 'Mostrar detalhes' : 'Ocultar detalhes';
+    btn.setAttribute('aria-expanded', String(!maintHidden));
+    document.getElementById('maintHint').textContent = maintHidden ? 'Próximas preventivas, histórico e odômetro ocultos' : '';
+  }
+  document.getElementById('maintToggle').addEventListener('click', function(){ setMaintHidden(!maintHidden); });
+  // clicar num card de alerta ou em "Ver alertas" reabre os detalhes
+  wrapEl.addEventListener('click', function(ev){
+    if(!maintHidden || !ev.target.closest) return;
+    var el = ev.target.closest('[data-mact="tile"],[data-mact="go-alerts"]');
+    if(el) setMaintHidden(false);
+  }, true);
+  applyMaintToggle();
+
+  // ---- ocultar / mostrar a relação completa de material ----
+  var frotaHidden = false;
+  try{ frotaHidden = localStorage.getItem('frotaHidden')==='1'; }catch(e){}
+  function applyFrotaToggle(){
+    var body = document.getElementById('frotaBody'), btn = document.getElementById('frotaToggle'), hint = document.getElementById('frotaHint');
+    body.hidden = frotaHidden;
+    btn.textContent = frotaHidden ? 'Mostrar itens' : 'Ocultar itens';
+    btn.setAttribute('aria-expanded', String(!frotaHidden));
+    hint.textContent = frotaHidden ? 'Tabela oculta' : '';
+  }
+  document.getElementById('frotaToggle').addEventListener('click', function(){
+    frotaHidden = !frotaHidden;
+    try{ localStorage.setItem('frotaHidden', frotaHidden ? '1' : '0'); }catch(e){}
+    applyFrotaToggle();
+  });
+  applyFrotaToggle();
+
+  // ================= ESTOQUE (óleos lubrificantes, peças e insumos) =================
+  var ITENS = [], MOVS = [], PEDS = [], IBYID = {}, SALDO = {};
+  var EST_CATS = ['Óleo lubrificante','Peça','Insumo'];
+  var EST_UNITS = ['L','un','kg','kit','par','jogo','m'];
+  var EST = {el:null, tab:'estoque', q:'', cat:'', low:false, open:null, form:null, confirm:null, aq:'', lim:{hist:12, ent:25, apl:40}};
+  var EIT_LBL = {nome:'Nome', categoria:'Categoria', unidade:'Unidade', codigo:'Código / PN', minimo:'Estoque mínimo', local:'Localização no almoxarifado', obs:'Observação'};
+  var EMV_LBL = {itemNome:'Item', qtd:'Quantidade', data:'Data', veiculoLabel:'Ativo', mecanico:'Mecânico', fornecedor:'Fornecedor', documento:'Documento / NF', obs:'Observação'};
+  var EPD_LBL = {itemNome:'Item', qtd:'Quantidade', previsao:'Previsão de chegada', fornecedor:'Fornecedor', documento:'Pedido / documento', obs:'Observação'};
+  var estToastTimer = null;
+
+  function r3(n){ return Math.round(n*1000)/1000; }
+  function qtyStr(n){ return Number(n).toLocaleString('pt-BR',{maximumFractionDigits:3}); }
+  function qtyU(n,u){ return qtyStr(n)+(u ? ' '+u : ''); }
+  function parseQty(s, allowZero){
+    s = String(s==null ? '' : s).trim().replace(/\s/g,'');
+    if(s==='') return '';
+    var n;
+    if(/^(\d{1,3}(\.\d{3})+|\d+)(,\d+)?$/.test(s)) n = Number(s.replace(/\./g,'').replace(',','.'));
+    else if(/^\d+\.\d{1,2}$/.test(s)) n = Number(s);
+    else return NaN;
+    if(!isFinite(n) || n<0 || (n===0 && !allowZero) || n>10000000) return NaN;
+    return r3(n);
+  }
+  function estCompute(){
+    IBYID = {}; ITENS.forEach(function(i){ IBYID[i.id] = i; });
+    SALDO = {};
+    MOVS.forEach(function(m){ SALDO[m.itemId] = r3((SALDO[m.itemId]||0) + (m.tipo==='entrada' ? m.qtd : -m.qtd)); });
+  }
+  function saldoOf(id){ return SALDO[id] || 0; }
+  function saldoSem(id, exclId){
+    var s = 0;
+    MOVS.forEach(function(m){ if(m.itemId!==id || m.id===exclId) return; s += (m.tipo==='entrada' ? m.qtd : -m.qtd); });
+    return r3(s);
+  }
+  function estLevel(it){
+    var s = saldoOf(it.id);
+    if(s<=0) return 'falta';
+    if(typeof it.minimo==='number' && it.minimo>0 && s<=it.minimo) return 'baixo';
+    return 'ok';
+  }
+  function lowCount(){ return ITENS.filter(function(i){ return estLevel(i)!=='ok'; }).length; }
+  function updateEstBtn(){
+    var b = document.getElementById('estBadge'); if(!b) return;
+    var n = lowCount();
+    b.textContent = n ? n : '';
+    b.style.display = n ? '' : 'none';
+    var btn = document.getElementById('estBtn');
+    if(btn) btn.title = n ? 'Controle de estoque — '+n+' item(ns) em falta ou abaixo do mínimo' : 'Controle de estoque';
+  }
+  function movSort(a,b){
+    if(a.data!==b.data) return a.data<b.data ? 1 : -1;
+    var x = a.criadoEm||'', y = b.criadoEm||'';
+    return x<y ? 1 : (x>y ? -1 : 0);
+  }
+  function mvItem(m){ return IBYID[m.itemId] || null; }
+  function mvName(m){ var it = mvItem(m); return it ? it.nome : (m.itemNome || 'Item removido'); }
+  function mvUn(m){ var it = mvItem(m); return it ? it.unidade : (m.unidade || ''); }
+  function mvAtivo(m){ var v = VBYID[m.veiculoId]; return v ? itemLabel(v) : (m.veiculoLabel || 'Ativo removido'); }
+  function pdName(p){ var it = IBYID[p.itemId]; return it ? it.nome : (p.itemNome || 'Item removido'); }
+  function pdUn(p){ var it = IBYID[p.itemId]; return it ? it.unidade : (p.unidade || ''); }
+  function estToast(text){
+    var t = document.getElementById('estToast'); if(!t) return;
+    t.textContent = text; t.className = 'toast show';
+    clearTimeout(estToastTimer);
+    estToastTimer = setTimeout(function(){ t.className = 'toast'; }, 5000);
+  }
+  function sbadge(level){
+    var map = {falta:['vencida','Sem saldo'], baixo:['atencao','Abaixo do mínimo'], ok:['ok','Regular']};
+    var m = map[level];
+    return '<span class="mbadge lv-'+m[0]+'">'+ICON[m[0]]+m[1]+'</span>';
+  }
+  function arrivalBadge(p){
+    var d = diffDays(p.previsao), lv, t;
+    if(d===null){ lv = 'atencao'; t = 'Sem previsão'; }
+    else if(d<0){ lv = 'vencida'; t = 'Atrasado há '+plural(-d,'dia','dias'); }
+    else if(d===0){ lv = 'urgente'; t = 'Chega hoje'; }
+    else if(d<=7){ lv = 'aviso'; t = 'Chega em '+plural(d,'dia','dias'); }
+    else { lv = 'ok'; t = 'Chega em '+plural(d,'dia','dias'); }
+    return '<span class="mbadge lv-'+lv+' sm">'+(ICON[lv]||ICON.atencao)+t+'</span>';
+  }
+
+  // ---- abrir / fechar ----
+  function estOpen(){
+    if(EST.el) return;
+    EST.tab = 'estoque'; EST.q = ''; EST.cat = ''; EST.low = false; EST.open = null; EST.form = null; EST.confirm = null; EST.aq = '';
+    EST.lim = {hist:12, ent:25, apl:40};
+    var ov = document.createElement('div'); ov.className = 'est-ov'; EST.el = ov;
+    ov.innerHTML = '<div class="est-box" role="dialog" aria-modal="true" aria-labelledby="estT">'+
+      '<div class="est-top"><div><h3 id="estT">Controle de estoque</h3><p>Óleos lubrificantes, peças e insumos. O saldo de cada item é calculado sozinho a partir das entradas e das aplicações nos ativos.</p></div>'+
+      '<button type="button" class="btn" data-eact="close">Fechar</button></div>'+
+      '<div class="est-scroll"><div class="kpis compact est-tiles" id="estTiles"></div>'+
+      '<div class="mtabs" role="tablist" id="estTabs"></div>'+
+      '<div class="toast" id="estToast" role="status" aria-live="polite"></div>'+
+      '<div id="estForm"></div><div id="estTools"></div><div id="estBody"></div></div></div>';
+    document.body.appendChild(ov);
+    ov.addEventListener('click', function(ev){
+      if(ev.target===ov){ estClose(); return; }
+      var b = ev.target.closest ? ev.target.closest('[data-eact]') : null; if(!b) return;
+      estAct(b);
+    });
+    ov.addEventListener('input', function(ev){
+      var id = ev.target && ev.target.id;
+      if(id==='estQ'){ EST.q = ev.target.value; estRenderBody(); }
+      else if(id==='estAq'){ EST.aq = ev.target.value; EST.lim.apl = 40; estRenderBody(); }
+      else if(id==='ef-vsearch'){
+        var sel = document.getElementById('ef-veiculo');
+        sel.innerHTML = vehicleOptionsHtml(ev.target.value, '');
+        var opts = sel.querySelectorAll('option[value]:not([value=""])');
+        if(opts.length===1) sel.value = opts[0].value;
+      }
+    });
+    ov.addEventListener('change', function(ev){
+      if(ev.target && ev.target.id==='ef-item') estSyncHint();
+    });
+    ov.addEventListener('keydown', function(ev){ if(ev.key==='Escape') estClose(); });
+    estRenderAll();
+    var f = ov.querySelector('[data-eact="close"]'); if(f) f.focus();
+  }
+  function estClose(){
+    if(EST.el && EST.el.parentNode) EST.el.parentNode.removeChild(EST.el);
+    EST.el = null; EST.form = null;
+    var b = document.getElementById('estBtn'); if(b) b.focus();
+  }
+
+  // ---- renderização ----
+  function estRenderAll(){
+    if(!EST.el) return;
+    estCompute();
+    estRenderTiles(); estRenderTabs(); estRenderTools(); estRenderBody(); estRenderForm();
+  }
+  function estRefresh(){
+    if(!EST.el) return;
+    estCompute();
+    estRenderTiles(); estRenderTabs(); estRenderBody();
+    estSyncHint();
+  }
+  function estRenderTiles(){
+    var open = PEDS.filter(function(p){ return p.status!=='recebido'; });
+    var late = open.filter(function(p){ var d = diffDays(p.previsao); return d!==null && d<0; }).length;
+    var lim = addDays(todayStr(), -30);
+    var apl = MOVS.filter(function(m){ return m.tipo==='saida' && m.data>=lim; }).length;
+    var low = lowCount();
+    function t(k,l,v,s){ return '<div class="kpi est-kpi" data-k="'+k+'"><span class="label">'+l+'</span><span class="value">'+v+'</span><span class="pct">'+s+'</span></div>'; }
+    document.getElementById('estTiles').innerHTML =
+      t('total','Itens cadastrados',ITENS.length,'óleos, peças e insumos')+
+      t('critical','Em falta ou abaixo do mínimo',low,low ? 'precisam de reposição' : 'estoque regular')+
+      t('warning','Pedidos a caminho',open.length,late ? late+' atrasado(s)' : 'nenhum atraso')+
+      t('good','Aplicações em 30 dias',apl,'registradas nos ativos');
+  }
+  function estRenderTabs(){
+    var n = PEDS.filter(function(p){ return p.status!=='recebido'; }).length;
+    var tabs = [['estoque','Estoque',''],['chegadas','Chegada de peças', n ? ' ('+n+')' : ''],['aplicacoes','Aplicações nos ativos','']];
+    document.getElementById('estTabs').innerHTML = tabs.map(function(t){
+      return '<button type="button" role="tab" data-eact="tab" data-tab="'+t[0]+'"'+(EST.tab===t[0] ? ' class="active"' : '')+'>'+t[1]+t[2]+'</button>';
+    }).join('');
+  }
+  function estRenderTools(){
+    var h = '';
+    if(EST.tab==='estoque'){
+      h = '<div class="filters"><div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'+
+        '<input id="estQ" type="text" placeholder="Buscar item, código ou localização…" value="'+esc(EST.q)+'" aria-label="Buscar no estoque"></div>'+
+        '<button type="button" class="btn btn-primary" data-eact="i-new">+ Novo item</button></div>'+
+        '<div class="filters"><div class="chipgroup">'+
+        '<button type="button" class="chip'+(!EST.cat && !EST.low ? ' active' : '')+'" data-eact="chip" data-cat="">Todos</button>'+
+        EST_CATS.map(function(c){ return '<button type="button" class="chip'+(EST.cat===c ? ' active' : '')+'" data-eact="chip" data-cat="'+esc(c)+'">'+esc(c)+'</button>'; }).join('')+
+        '<button type="button" class="chip'+(EST.low ? ' active' : '')+'" data-eact="chip" data-low="1">Abaixo do mínimo</button></div></div>';
+    } else if(EST.tab==='chegadas'){
+      h = '<div class="filters"><button type="button" class="btn btn-primary" data-eact="p-new">+ Registrar pedido (a caminho)</button>'+
+        '<button type="button" class="btn" data-eact="e-new">+ Entrada direta</button></div>';
+    } else {
+      h = '<div class="filters"><div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'+
+        '<input id="estAq" type="text" placeholder="Buscar por item, ativo, mecânico ou observação…" value="'+esc(EST.aq)+'" aria-label="Buscar nas aplicações"></div>'+
+        '<button type="button" class="btn btn-primary" data-eact="a-new">+ Aplicar item em ativo</button></div>';
+    }
+    document.getElementById('estTools').innerHTML = h;
+  }
+  function estRenderBody(){
+    var b = document.getElementById('estBody'); if(!b) return;
+    b.innerHTML = EST.tab==='estoque' ? estBodyEstoque() : (EST.tab==='chegadas' ? estBodyChegadas() : estBodyAplic());
+  }
+
+  function confirmHtml(key, msg, yesAct, id){
+    return '<div class="confirm-box"><span>'+msg+'</span><span class="confirm-box-btns">'+
+      '<button type="button" class="btn" data-eact="del-no">Cancelar</button>'+
+      '<button type="button" class="btn btn-danger" data-eact="'+yesAct+'" data-id="'+esc(id)+'">Sim, excluir</button></span></div>';
+  }
+  function movRow(m, showItem){
+    var ent = m.tipo==='entrada';
+    var known = !!mvItem(m);
+    var det;
+    if(ent) det = [m.fornecedor ? 'Fornecedor: '+esc(m.fornecedor) : '', m.documento ? 'Doc.: '+esc(m.documento) : ''].filter(Boolean).join(' · ');
+    else det = 'Ativo: <b>'+esc(mvAtivo(m))+'</b>'+(m.mecanico ? ' · Mecânico: <b>'+esc(m.mecanico)+'</b>' : '');
+    var acts = '';
+    if(known){
+      acts = (EST.confirm==='mv:'+m.id)
+        ? confirmHtml('mv', ent ? 'Excluir esta entrada? O saldo do item será reduzido.' : 'Excluir esta aplicação? A quantidade volta ao saldo do item.', 'mv-del-yes', m.id)
+        : '<span class="li-actions"><button type="button" class="btn" data-eact="mv-edit" data-id="'+esc(m.id)+'">Editar</button>'+
+          '<button type="button" class="btn btn-danger" data-eact="mv-del" data-id="'+esc(m.id)+'">Excluir</button></span>';
+    }
+    return '<div class="emov"><div class="emov-top"><span class="tipo'+(ent ? ' prev' : '')+'">'+(ent ? 'Entrada' : 'Aplicação')+'</span>'+
+      '<span class="mono">'+fmtD(m.data)+'</span>'+
+      '<span class="mono emov-q '+(ent ? 'pos' : 'neg')+'">'+(ent ? '+' : '−')+qtyU(m.qtd, mvUn(m))+'</span>'+
+      (showItem ? '<strong>'+esc(mvName(m))+'</strong>' : '')+'</div>'+
+      (det ? '<div class="emov-det">'+det+'</div>' : '')+
+      (m.obs ? '<div class="emov-det">'+esc(m.obs)+'</div>' : '')+
+      (acts ? '<div class="emov-acts">'+acts+'</div>' : '')+'</div>';
+  }
+
+  function estBodyEstoque(){
+    if(!ITENS.length){
+      return '<div class="m-empty"><b>Nenhum item cadastrado ainda.</b><br>Use “+ Novo item” para cadastrar óleos, peças e insumos. Informe o saldo inicial no cadastro e, depois, registre as chegadas e as aplicações nos ativos.</div>';
+    }
+    var q = EST.q.trim().toLowerCase();
+    var rank = {falta:0, baixo:1, ok:2};
+    var rows = ITENS.filter(function(i){
+      if(EST.cat && i.categoria!==EST.cat) return false;
+      if(EST.low && estLevel(i)==='ok') return false;
+      if(q && [i.nome, i.codigo, i.local, i.categoria].join(' ').toLowerCase().indexOf(q)===-1) return false;
+      return true;
+    }).sort(function(a,b){
+      var d = rank[estLevel(a)] - rank[estLevel(b)];
+      return d!==0 ? d : (a.nome||'').localeCompare(b.nome||'');
+    });
+    var head = '<div class="erow head"><span>Item</span><span>Saldo</span><span>Mínimo</span><span>Situação</span><span>Movimentar</span></div>';
+    if(!rows.length) return '<p class="count-line">0 itens com este filtro.</p>';
+    var html = rows.map(function(i){
+      var open = EST.open===i.id;
+      var lvl = estLevel(i);
+      var line = '<div class="erow" data-eact="toggle" data-id="'+esc(i.id)+'" tabindex="0" role="button" aria-expanded="'+open+'">'+
+        '<div><div class="n-nom">'+esc(i.nome)+'</div><div class="n-sub">'+esc([i.categoria, i.codigo ? 'PN '+i.codigo : '', i.local].filter(Boolean).join(' · '))+'</div></div>'+
+        '<span class="mono esaldo lv-'+lvl+'">'+qtyU(saldoOf(i.id), i.unidade)+'</span>'+
+        '<span class="mono emin">'+(i.minimo>0 ? qtyU(i.minimo, i.unidade) : '—')+'</span>'+
+        '<span>'+sbadge(lvl)+'</span>'+
+        '<span class="n-act2"><button type="button" class="btn" data-eact="e-new" data-iid="'+esc(i.id)+'">Entrada</button>'+
+        '<button type="button" class="btn" data-eact="a-new" data-iid="'+esc(i.id)+'">Aplicar</button></span></div>';
+      var det = '';
+      if(open){
+        var ms = MOVS.filter(function(m){ return m.itemId===i.id; }).sort(movSort);
+        var shown = ms.slice(0, EST.lim.hist);
+        var apl = ms.filter(function(m){ return m.tipo==='saida'; }).length;
+        det = '<div class="edetail">'+
+          '<div class="edetail-info">'+
+            '<span><b>Categoria</b>'+esc(i.categoria)+'</span>'+
+            '<span><b>Unidade</b>'+esc(i.unidade)+'</span>'+
+            '<span><b>Código / PN</b>'+esc(i.codigo||'—')+'</span>'+
+            '<span><b>Localização</b>'+esc(i.local||'—')+'</span>'+
+            '<span><b>Aplicado até hoje</b>'+apl+' vez(es)</span></div>'+
+          (i.obs ? '<div class="emov-det" style="margin-bottom:8px;">'+esc(i.obs)+'</div>' : '')+
+          '<div class="edetail-acts">'+
+            ((EST.confirm==='it:'+i.id)
+              ? confirmHtml('it', 'Excluir este item'+(ms.length ? ' e as '+ms.length+' movimentação(ões) dele' : '')+'? Essa ação não pode ser desfeita.', 'i-del-yes', i.id)
+              : '<button type="button" class="btn" data-eact="i-edit" data-id="'+esc(i.id)+'">Editar item</button>'+
+                '<button type="button" class="btn btn-danger" data-eact="i-del" data-id="'+esc(i.id)+'">Excluir item</button>')+
+          '</div>'+
+          '<div class="mbox-head" style="margin-top:12px;"><b>Histórico de movimentações ('+ms.length+')</b></div>'+
+          (shown.length ? shown.map(function(m){ return movRow(m, false); }).join('') +
+            (ms.length>shown.length ? '<div style="padding:8px 0;"><button type="button" class="btn" data-eact="more" data-k="hist">Mostrar mais ('+(ms.length-shown.length)+')</button></div>' : '')
+            : '<div style="color:var(--ink-muted);font-size:12.5px;">Nenhuma movimentação registrada para este item.</div>')+
+          '</div>';
+      }
+      return '<div class="eitem'+(open ? ' is-open' : '')+'">'+line+det+'</div>';
+    }).join('');
+    return '<p class="count-line">'+rows.length+' de '+ITENS.length+' itens</p>'+head+html;
+  }
+
+  function estBodyChegadas(){
+    var open = PEDS.filter(function(p){ return p.status!=='recebido'; }).sort(function(a,b){
+      var x = a.previsao||'9999', y = b.previsao||'9999';
+      return x<y ? -1 : (x>y ? 1 : 0);
+    });
+    var h = '<div class="mbox-head"><b>A caminho ('+open.length+')</b></div>';
+    if(!ITENS.length) h += '<div class="m-empty">Cadastre primeiro os itens na aba Estoque para poder registrar pedidos e entradas.</div>';
+    else if(!open.length) h += '<div class="m-empty"><b>Nenhum pedido a caminho.</b><br>Registre um pedido com a previsão de chegada para acompanhar o prazo. Quando a peça chegar, use “Receber” e o saldo é atualizado sozinho.</div>';
+    else h += open.map(function(p){
+      var known = !!IBYID[p.itemId];
+      var acts = (EST.confirm==='pd:'+p.id)
+        ? confirmHtml('pd', 'Excluir este pedido?', 'p-del-yes', p.id)
+        : (known ? '<button type="button" class="btn btn-primary" data-eact="p-recv" data-id="'+esc(p.id)+'">Receber</button>' : '')+
+          '<button type="button" class="btn" data-eact="p-edit" data-id="'+esc(p.id)+'">Editar</button>'+
+          '<button type="button" class="btn btn-danger" data-eact="p-del" data-id="'+esc(p.id)+'">Excluir</button>';
+      return '<div class="emov"><div class="emov-top"><strong>'+esc(pdName(p))+'</strong><span class="mono emov-q pos">'+qtyU(p.qtd, pdUn(p))+'</span>'+
+        '<span class="mono">Previsão: '+fmtD(p.previsao)+'</span>'+arrivalBadge(p)+'</div>'+
+        '<div class="emov-det">'+esc([p.fornecedor ? 'Fornecedor: '+p.fornecedor : '', p.documento ? 'Pedido/doc.: '+p.documento : '', p.obs || ''].filter(Boolean).join(' · '))+'</div>'+
+        '<div class="emov-acts">'+acts+'</div></div>';
+    }).join('');
+    var ents = MOVS.filter(function(m){ return m.tipo==='entrada'; }).sort(movSort);
+    var shown = ents.slice(0, EST.lim.ent);
+    h += '<div class="mbox-head" style="margin-top:18px;"><b>Entradas registradas ('+ents.length+')</b></div>';
+    h += shown.length ? shown.map(function(m){ return movRow(m, true); }).join('') +
+      (ents.length>shown.length ? '<div style="padding:8px 0;"><button type="button" class="btn" data-eact="more" data-k="ent">Mostrar mais ('+(ents.length-shown.length)+')</button></div>' : '')
+      : '<div style="color:var(--ink-muted);font-size:12.5px;">Nenhuma entrada registrada ainda.</div>';
+    return h;
+  }
+
+  function estBodyAplic(){
+    var q = EST.aq.trim().toLowerCase();
+    var all = MOVS.filter(function(m){ return m.tipo==='saida'; });
+    var ms = all.filter(function(m){
+      if(!q) return true;
+      return [mvName(m), mvAtivo(m), m.mecanico, m.obs].join(' ').toLowerCase().indexOf(q)>-1;
+    }).sort(movSort);
+    var shown = ms.slice(0, EST.lim.apl);
+    var h = '<p class="count-line">'+ms.length+(q ? ' de '+all.length : '')+' aplicação(ões) registrada(s)</p>';
+    if(!all.length) return h+'<div class="m-empty"><b>Nenhuma aplicação registrada.</b><br>Use “+ Aplicar item em ativo” para dar baixa em óleo, peça ou insumo usado em uma viatura ou equipamento. O saldo é descontado sozinho.</div>';
+    if(!ms.length) return h;
+    return h + shown.map(function(m){ return movRow(m, true); }).join('') +
+      (ms.length>shown.length ? '<div style="padding:8px 0;"><button type="button" class="btn" data-eact="more" data-k="apl">Mostrar mais ('+(ms.length-shown.length)+')</button></div>' : '');
+  }
+
+  // ---- formulários ----
+  function fld(label, id, inner, cls){ return '<div class="field'+(cls ? ' '+cls : '')+'"><label for="'+id+'">'+label+'</label>'+inner+'</div>'; }
+  function itemSelectHtml(selectedId, locked){
+    var html = '';
+    EST_CATS.forEach(function(c){
+      var opts = ITENS.filter(function(i){ return i.categoria===c; }).sort(function(a,b){ return (a.nome||'').localeCompare(b.nome||''); });
+      if(!opts.length) return;
+      html += '<optgroup label="'+esc(c)+'">'+opts.map(function(i){
+        return '<option value="'+esc(i.id)+'"'+(i.id===selectedId ? ' selected' : '')+'>'+esc(i.nome+(i.codigo ? ' · '+i.codigo : '')+' — saldo '+qtyU(saldoOf(i.id), i.unidade))+'</option>';
+      }).join('')+'</optgroup>';
+    });
+    return '<select id="ef-item"'+(locked ? ' disabled' : '')+'>'+(selectedId ? '' : '<option value="">Selecione o item…</option>')+html+'</select>';
+  }
+  function estMecHtml(){
+    var seen = {};
+    MAINT.forEach(function(m){ if(m.mecanico) seen[m.mecanico] = 1; });
+    MOVS.forEach(function(m){ if(m.mecanico) seen[m.mecanico] = 1; });
+    return Object.keys(seen).sort().map(function(n){ return '<option value="'+esc(n)+'">'; }).join('');
+  }
+  function estRenderForm(){
+    var w = document.getElementById('estForm'); if(!w) return;
+    var f = EST.form;
+    if(!f){ w.innerHTML = ''; return; }
+    var edit = f.mode==='edit';
+    var h = '<div class="form-box m-form">';
+    if(f.kind==='item'){
+      var it = (edit ? IBYID[f.id] : null) || {categoria:'Óleo lubrificante', unidade:'L'};
+      h += '<h3>'+(edit ? 'Editar item de estoque' : 'Novo item de estoque')+'</h3><div class="form-grid">'+
+        fld('Nome do item','ef-nome','<input type="text" id="ef-nome" value="'+esc(it.nome||'')+'" placeholder="Ex.: Óleo 15W40 CI-4, Filtro de óleo, Graxa, Aditivo">','full')+
+        fld('Categoria','ef-cat','<select id="ef-cat">'+EST_CATS.map(function(c){ return '<option'+(it.categoria===c ? ' selected' : '')+'>'+esc(c)+'</option>'; }).join('')+'</select>')+
+        fld('Unidade','ef-un','<input type="text" id="ef-un" list="estUnits" value="'+esc(it.unidade||'')+'" placeholder="L, un, kg…" maxlength="12"><datalist id="estUnits">'+EST_UNITS.map(function(u){ return '<option value="'+u+'">'; }).join('')+'</datalist>')+
+        fld('Estoque mínimo (alerta)','ef-min','<input type="text" id="ef-min" inputmode="decimal" value="'+esc(typeof it.minimo==='number' ? String(it.minimo).replace('.',',') : '')+'" placeholder="Ex.: 20">')+
+        fld('Código / part number (opcional)','ef-cod','<input type="text" id="ef-cod" value="'+esc(it.codigo||'')+'">')+
+        fld('Localização no almoxarifado (opcional)','ef-loc','<input type="text" id="ef-loc" value="'+esc(it.local||'')+'" placeholder="Ex.: Prateleira 3">')+
+        (edit ? '' : fld('Saldo inicial (opcional)','ef-ini','<input type="text" id="ef-ini" inputmode="decimal" placeholder="Quanto há hoje em estoque">'))+
+        fld('Observação (opcional)','ef-obs','<textarea id="ef-obs">'+esc(it.obs||'')+'</textarea>','full')+
+        '</div>';
+    } else if(f.kind==='pedido'){
+      var p = edit ? PEDS.filter(function(x){ return x.id===f.id; })[0] : null; p = p || {};
+      var sel = edit ? p.itemId : (f.itemId||'');
+      h += '<h3>'+(edit ? 'Editar pedido' : 'Registrar pedido (peça a caminho)')+'</h3><div class="form-grid">'+
+        fld('Item','ef-item',itemSelectHtml(sel, false),'full')+
+        fld('Quantidade','ef-qtd','<input type="text" id="ef-qtd" inputmode="decimal" value="'+esc(p.qtd!=null ? String(p.qtd).replace('.',',') : '')+'">')+
+        fld('Previsão de chegada','ef-prev','<input type="date" id="ef-prev" value="'+esc(p.previsao||'')+'">')+
+        fld('Fornecedor','ef-forn','<input type="text" id="ef-forn" value="'+esc(p.fornecedor||'')+'">')+
+        fld('Pedido / documento (opcional)','ef-doc','<input type="text" id="ef-doc" value="'+esc(p.documento||'')+'">')+
+        fld('Observação (opcional)','ef-obs','<textarea id="ef-obs">'+esc(p.obs||'')+'</textarea>','full')+
+        '</div>';
+    } else {
+      var ent = f.kind==='entrada';
+      var m = edit ? MOVS.filter(function(x){ return x.id===f.id; })[0] : null; m = m || {};
+      var sel2 = edit ? m.itemId : (f.itemId||'');
+      var locked = !!f.lockItem;
+      var title = ent ? (f.pedidoId ? 'Receber pedido' : (edit ? 'Editar entrada' : 'Registrar entrada (chegada de peças)')) : (edit ? 'Editar aplicação' : 'Aplicar item em ativo');
+      h += '<h3>'+title+'</h3><div class="form-grid">'+
+        fld('Item','ef-item',itemSelectHtml(sel2, locked),'full')+
+        fld(ent ? 'Quantidade recebida' : 'Quantidade aplicada','ef-qtd','<input type="text" id="ef-qtd" inputmode="decimal" value="'+esc(m.qtd!=null ? String(m.qtd).replace('.',',') : (f.qtd!=null ? String(f.qtd).replace('.',',') : ''))+'"><span class="form-msg" id="ef-hint" style="margin:0;"></span>')+
+        fld(ent ? 'Data do recebimento' : 'Data da aplicação','ef-data','<input type="date" id="ef-data" value="'+esc(m.data||todayStr())+'">');
+      if(ent){
+        h += fld('Fornecedor','ef-forn','<input type="text" id="ef-forn" value="'+esc(m.fornecedor!=null ? m.fornecedor : (f.fornecedor||''))+'">')+
+          fld('Nota fiscal / documento (opcional)','ef-doc','<input type="text" id="ef-doc" value="'+esc(m.documento!=null ? m.documento : (f.documento||''))+'">')+
+          fld('Observação (opcional)','ef-obs','<textarea id="ef-obs">'+esc(m.obs||'')+'</textarea>','full');
+      } else {
+        h += fld('Mecânico que aplicou','ef-mec','<input type="text" id="ef-mec" list="estMecs" autocomplete="off" value="'+esc(m.mecanico||'')+'" placeholder="Nome / posto-graduação"><datalist id="estMecs">'+estMecHtml()+'</datalist>')+
+          '<div class="field full"><label for="ef-vsearch">Ativo onde foi aplicado (viatura / equipamento)</label>'+
+            '<input type="text" id="ef-vsearch" placeholder="Filtrar por nome, marca, EB ou localização…" autocomplete="off" style="margin-bottom:6px;">'+
+            '<select id="ef-veiculo">'+vehicleOptionsHtml('', m.veiculoId||'')+'</select></div>'+
+          fld('Serviço / observação (opcional)','ef-obs','<textarea id="ef-obs" placeholder="Ex.: troca de óleo do motor na revisão dos 10.000 km">'+esc(m.obs||'')+'</textarea>','full');
+      }
+      h += '</div>';
+    }
+    h += '<div class="form-actions"><span class="form-msg" id="ef-msg"></span>'+
+      '<button type="button" class="btn" data-eact="f-cancel">Cancelar</button>'+
+      '<button type="button" class="btn btn-primary" data-eact="f-save" id="ef-save">'+(edit ? 'Salvar alterações' : 'Salvar')+'</button></div></div>';
+    w.innerHTML = h;
+    estSyncHint();
+    var first = w.querySelector('input:not([disabled]),select:not([disabled])');
+    w.scrollIntoView({behavior: reduceMotion() ? 'auto' : 'smooth', block:'nearest'});
+    if(first) first.focus({preventScroll:true});
+  }
+  function estSyncHint(){
+    var h = document.getElementById('ef-hint'), s = document.getElementById('ef-item');
+    if(!h) return;
+    var id = s ? s.value : (EST.form && EST.form.itemId);
+    var it = IBYID[id];
+    h.textContent = it ? 'Saldo atual: '+qtyU(saldoOf(it.id), it.unidade) : '';
+  }
+  function estFormOpen(f){
+    if(STATE.readOnly || !dbApi) return;
+    EST.form = f; EST.confirm = null;
+    estRenderForm();
+  }
+  function estFormClose(){ EST.form = null; estRenderForm(); }
+
+  // ---- ações (delegadas) ----
+  function estAct(b){
+    var a = b.getAttribute('data-eact'), id = b.getAttribute('data-id');
+    if(a==='close') estClose();
+    else if(a==='tab'){ EST.tab = b.getAttribute('data-tab'); EST.confirm = null; estRenderTabs(); estRenderTools(); estRenderBody(); }
+    else if(a==='chip'){
+      if(b.getAttribute('data-low')){ EST.low = !EST.low; EST.cat = ''; }
+      else { EST.cat = b.getAttribute('data-cat') || ''; EST.low = false; }
+      estRenderTools(); estRenderBody();
+    }
+    else if(a==='toggle'){ EST.open = (EST.open===id) ? null : id; EST.confirm = null; EST.lim.hist = 12; estRenderBody(); }
+    else if(a==='more'){ EST.lim[b.getAttribute('data-k')] += 25; estRenderBody(); }
+    else if(a==='del-no'){ EST.confirm = null; estRenderBody(); }
+    else if(a==='f-cancel') estFormClose();
+    else if(a==='f-save') estSaveForm();
+    else if(a==='i-new') estFormOpen({kind:'item', mode:'new'});
+    else if(a==='i-edit') estFormOpen({kind:'item', mode:'edit', id:id});
+    else if(a==='i-del'){ EST.confirm = 'it:'+id; estRenderBody(); }
+    else if(a==='i-del-yes'){ b.disabled = true; b.textContent = 'Excluindo…'; estDelItem(id); }
+    else if(a==='e-new') estFormOpen({kind:'entrada', mode:'new', itemId:b.getAttribute('data-iid')||''});
+    else if(a==='a-new') estFormOpen({kind:'saida', mode:'new', itemId:b.getAttribute('data-iid')||''});
+    else if(a==='mv-edit'){
+      var m = MOVS.filter(function(x){ return x.id===id; })[0]; if(!m) return;
+      estFormOpen({kind:m.tipo, mode:'edit', id:id});
+    }
+    else if(a==='mv-del'){ EST.confirm = 'mv:'+id; estRenderBody(); }
+    else if(a==='mv-del-yes'){ b.disabled = true; b.textContent = 'Excluindo…'; estDelMov(id); }
+    else if(a==='p-new') estFormOpen({kind:'pedido', mode:'new'});
+    else if(a==='p-edit') estFormOpen({kind:'pedido', mode:'edit', id:id});
+    else if(a==='p-del'){ EST.confirm = 'pd:'+id; estRenderBody(); }
+    else if(a==='p-del-yes'){ b.disabled = true; b.textContent = 'Excluindo…'; estDelPed(id); }
+    else if(a==='p-recv'){
+      var p = PEDS.filter(function(x){ return x.id===id; })[0]; if(!p) return;
+      estFormOpen({kind:'entrada', mode:'new', pedidoId:p.id, itemId:p.itemId, lockItem:true, qtd:p.qtd, fornecedor:p.fornecedor, documento:p.documento});
+    }
+  }
+  document.getElementById('estBtn').addEventListener('click', estOpen);
+
+  // ---- gravação ----
+  function estSaveForm(){
+    var f = EST.form; if(!f) return;
+    var msg = document.getElementById('ef-msg');
+    function err(t){ msg.textContent = t; msg.className = 'form-msg err'; return null; }
+    function val(id){ var e = document.getElementById(id); return e ? e.value.trim() : ''; }
+    var btn = document.getElementById('ef-save');
+    function busy(){ btn.disabled = true; msg.textContent = 'Salvando…'; msg.className = 'form-msg'; }
+    function fail(e){ btn.disabled = false; err('Não foi possível salvar ('+(e && e.code || 'erro')+'). Tente novamente.'); }
+    var now = new Date().toISOString();
+
+    if(f.kind==='item'){
+      var nome = val('ef-nome'), cat = val('ef-cat'), un = val('ef-un'), cod = val('ef-cod'), loc = val('ef-loc'), obs = val('ef-obs');
+      var min = parseQty(val('ef-min'), true), ini = f.mode==='new' ? parseQty(val('ef-ini'), true) : '';
+      if(!nome) return err('Informe o nome do item.');
+      if(!un) return err('Informe a unidade (L, un, kg…).');
+      if(min!=='' && isNaN(min)) return err('Estoque mínimo inválido. Use apenas números (ex.: 20 ou 12,5).');
+      if(ini!=='' && isNaN(ini)) return err('Saldo inicial inválido. Use apenas números (ex.: 200 ou 12,5).');
+      var dup = ITENS.filter(function(i){ return i.id!==f.id && i.nome.trim().toLowerCase()===nome.toLowerCase() && String(i.unidade).toLowerCase()===un.toLowerCase(); })[0];
+      if(dup) return err('Já existe um item com esse nome e unidade.');
+      var doc = {nome:nome, categoria:cat, unidade:un, codigo:cod, minimo:(min===''?0:min), local:loc, obs:obs, atualizadoEm:now};
+      busy();
+      if(f.mode==='edit'){
+        var old = IBYID[f.id] || {};
+        dbApi.collection('estoque_itens').doc(f.id).update(doc).then(function(){
+          var l = audDiff(old, doc, EIT_LBL); if(l.length) logAudit('editou','estoque', nome, f.id, l);
+          estFormClose(); estToast('Item atualizado.');
+        }).catch(fail);
+      } else {
+        doc.criadoEm = now;
+        var newId = null;
+        dbApi.collection('estoque_itens').add(doc).then(function(ref){
+          newId = ref && ref.id;
+          var l = audSnap(doc, EIT_LBL);
+          if(ini>0){
+            l.push('Saldo inicial: '+qtyU(ini, un));
+            return dbApi.collection('estoque_mov').add({itemId:newId, itemNome:nome, unidade:un, tipo:'entrada', qtd:ini, data:todayStr(), fornecedor:'Saldo inicial', documento:'', obs:'Saldo inicial no cadastro do item', criadoEm:now, atualizadoEm:now}).then(function(){ return l; });
+          }
+          return l;
+        }).then(function(l){
+          logAudit('adicionou','estoque', nome, newId, l);
+          estFormClose(); estToast('Item cadastrado.'+(ini>0 ? ' Saldo inicial: '+qtyU(ini, un)+'.' : ''));
+        }).catch(fail);
+      }
+      return;
+    }
+
+    if(f.kind==='pedido'){
+      var itemId = val('ef-item'), qtd = parseQty(val('ef-qtd')), prev = val('ef-prev');
+      if(!itemId || !IBYID[itemId]) return err('Selecione o item.');
+      if(qtd==='' || isNaN(qtd)) return err('Informe a quantidade (maior que zero).');
+      if(!parseD(prev)) return err('Informe a previsão de chegada.');
+      var it2 = IBYID[itemId];
+      var pdoc = {itemId:itemId, itemNome:it2.nome, unidade:it2.unidade, qtd:qtd, previsao:prev, fornecedor:val('ef-forn'), documento:val('ef-doc'), obs:val('ef-obs'), status:'aguardando', atualizadoEm:now};
+      busy();
+      if(f.mode==='edit'){
+        var po = PEDS.filter(function(x){ return x.id===f.id; })[0] || {};
+        dbApi.collection('estoque_pedidos').doc(f.id).update(pdoc).then(function(){
+          var l = audDiff(po, pdoc, EPD_LBL); if(l.length) logAudit('editou','pedido', it2.nome, f.id, l);
+          estFormClose(); estToast('Pedido atualizado.');
+        }).catch(fail);
+      } else {
+        pdoc.criadoEm = now;
+        dbApi.collection('estoque_pedidos').add(pdoc).then(function(ref){
+          logAudit('adicionou','pedido', it2.nome, ref && ref.id, audSnap(pdoc, EPD_LBL));
+          estFormClose(); estToast('Pedido registrado. Previsão: '+fmtD(prev)+'.');
+        }).catch(fail);
+      }
+      return;
+    }
+
+    // entrada / saída
+    var ent = f.kind==='entrada';
+    var recOld = f.mode==='edit' ? MOVS.filter(function(x){ return x.id===f.id; })[0] : null;
+    var iid = f.lockItem ? f.itemId : val('ef-item');
+    var item = IBYID[iid];
+    var q = parseQty(val('ef-qtd')), data = val('ef-data');
+    if(!item) return err('Selecione o item.');
+    if(q==='' || isNaN(q)) return err('Informe a quantidade (maior que zero).');
+    if(!parseD(data)) return err('Informe a data.');
+    if(data>todayStr()) return err('A data não pode ser futura.');
+    var veic = null, mec = '';
+    if(!ent){
+      var vid = val('ef-veiculo'); veic = VBYID[vid];
+      mec = val('ef-mec');
+      if(!veic) return err('Selecione o ativo onde o item foi aplicado.');
+      if(!mec) return err('Informe o mecânico que aplicou.');
+    }
+    var effect = ent ? q : -q;
+    var baseNew = recOld && recOld.itemId===iid ? saldoSem(iid, recOld.id) : saldoOf(iid);
+    var afterNew = r3(baseNew + effect);
+    if(afterNew<0){
+      return err(ent ? 'A alteração deixaria o saldo negativo (parte desse estoque já foi aplicada).' : 'Quantidade maior que o saldo disponível ('+qtyU(baseNew, item.unidade)+').');
+    }
+    if(recOld && recOld.itemId!==iid){
+      var oldAfter = saldoSem(recOld.itemId, recOld.id);
+      if(oldAfter<0) return err('Não é possível trocar o item: o saldo do item anterior ficaria negativo.');
+    }
+    var mdoc = {itemId:iid, itemNome:item.nome, unidade:item.unidade, tipo:f.kind, qtd:q, data:data, obs:val('ef-obs'), atualizadoEm:now};
+    if(ent){ mdoc.fornecedor = val('ef-forn'); mdoc.documento = val('ef-doc'); }
+    else { mdoc.veiculoId = veic.id; mdoc.veiculoLabel = itemLabel(veic); mdoc.mecanico = mec; }
+    busy();
+    var before = saldoOf(iid);
+    var col = dbApi.collection('estoque_mov'), p;
+    if(f.mode==='edit') p = col.doc(f.id).update(mdoc);
+    else { mdoc.criadoEm = now; if(f.pedidoId) mdoc.pedidoId = f.pedidoId; p = col.add(mdoc); }
+    p.then(function(ref){
+      var l = f.mode==='edit' ? audDiff(recOld||{}, mdoc, EMV_LBL) : audSnap(mdoc, EMV_LBL);
+      if(f.mode!=='edit' || l.length){
+        l.push('Saldo do item: '+qtyU(before, item.unidade)+' → '+qtyU(afterNew, item.unidade));
+        logAudit(f.mode==='edit' ? 'editou' : 'adicionou', ent ? 'entrada' : 'aplicacao', ent ? item.nome : (item.nome+' → '+mdoc.veiculoLabel), f.mode==='edit' ? f.id : (ref && ref.id), l);
+      }
+      var tail = null;
+      if(ent && f.pedidoId){
+        var pd = PEDS.filter(function(x){ return x.id===f.pedidoId; })[0];
+        if(pd){
+          var full = q>=pd.qtd;
+          tail = dbApi.collection('estoque_pedidos').doc(pd.id).update(full ? {status:'recebido', recebidoEm:data, atualizadoEm:now} : {qtd:r3(pd.qtd-q), atualizadoEm:now}).then(function(){
+            logAudit('editou','pedido', item.nome, pd.id, [full ? 'Pedido recebido por completo em '+fmtD(data) : 'Recebimento parcial: '+qtyU(q, item.unidade)+'; faltam '+qtyU(r3(pd.qtd-q), item.unidade)]);
+          });
+        }
+      }
+      return Promise.resolve(tail).then(function(){
+        estFormClose();
+        estToast((ent ? 'Entrada registrada.' : 'Aplicação registrada.')+' Saldo de '+item.nome+': '+qtyU(before, item.unidade)+' → '+qtyU(afterNew, item.unidade)+'.'+(!ent && item.minimo>0 && afterNew<=item.minimo ? ' Atenção: abaixo do mínimo.' : ''));
+      });
+    }).catch(fail);
+  }
+
+  function estDelMov(id){
+    var m = MOVS.filter(function(x){ return x.id===id; })[0];
+    if(!m){ EST.confirm = null; return; }
+    var it = IBYID[m.itemId];
+    if(m.tipo==='entrada' && saldoSem(m.itemId, id) < 0){
+      EST.confirm = null; estRenderBody();
+      estToast('Não é possível excluir: parte dessa entrada já foi aplicada e o saldo ficaria negativo.');
+      return;
+    }
+    var before = saldoOf(m.itemId), after = saldoSem(m.itemId, id), u = mvUn(m);
+    dbApi.collection('estoque_mov').doc(id).delete().then(function(){
+      var l = audSnap(m, EMV_LBL); l.push('Saldo do item: '+qtyU(before, u)+' → '+qtyU(after, u));
+      logAudit('excluiu', m.tipo==='entrada' ? 'entrada' : 'aplicacao', m.tipo==='entrada' ? mvName(m) : (mvName(m)+' → '+mvAtivo(m)), id, l);
+      EST.confirm = null; estRenderBody(); estToast('Movimentação excluída. Saldo de '+(it ? it.nome : mvName(m))+': '+qtyU(after, u)+'.');
+    }).catch(function(e){ EST.confirm = null; estRenderBody(); estToast('Não foi possível excluir ('+(e && e.code || 'erro')+').'); });
+  }
+  function estDelPed(id){
+    var p = PEDS.filter(function(x){ return x.id===id; })[0]; if(!p) return;
+    dbApi.collection('estoque_pedidos').doc(id).delete().then(function(){
+      logAudit('excluiu','pedido', pdName(p), id, audSnap(p, EPD_LBL));
+      EST.confirm = null; estRenderBody(); estToast('Pedido excluído.');
+    }).catch(function(e){ EST.confirm = null; estRenderBody(); estToast('Não foi possível excluir ('+(e && e.code || 'erro')+').'); });
+  }
+  function estDelItem(id){
+    var it = IBYID[id]; if(!it) return;
+    var ms = MOVS.filter(function(m){ return m.itemId===id; }), ps = PEDS.filter(function(p){ return p.itemId===id; });
+    var ops = ms.map(function(m){ return dbApi.collection('estoque_mov').doc(m.id).delete(); })
+      .concat(ps.map(function(p){ return dbApi.collection('estoque_pedidos').doc(p.id).delete(); }));
+    Promise.all(ops).then(function(){ return dbApi.collection('estoque_itens').doc(id).delete(); }).then(function(){
+      var l = audSnap(it, EIT_LBL);
+      if(ms.length || ps.length) l.push((ms.length+ps.length)+' registro(s) de movimentação/pedido removido(s) junto');
+      logAudit('excluiu','estoque', it.nome, id, l);
+      EST.confirm = null; EST.open = null; estRenderBody(); estToast('Item excluído.');
+    }).catch(function(e){ EST.confirm = null; estRenderBody(); estToast('Não foi possível excluir ('+(e && e.code || 'erro')+').'); });
+  }
+
+  async function init(){
+    setSync('connecting', 'Conectando ao banco de dados…');
+    dbApi = (window.claude && typeof window.claude.use === 'function') ? await window.claude.use('db') : null;
+    if(!dbApi){
+      STATE.readOnly = true;
+      setSync('readonly', 'Modo somente leitura', 'Esta visualização não tem acesso de edição.');
+      document.getElementById('addBtn').style.display = 'none';
+      renderAll();
+      return;
+    }
+    dbApi.collection('veiculos').onSnapshot(function(snap){
+      STATE.items = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+      STATE.connected = true;
+      setSync('live', 'Conectado — alterações são salvas para todos', snap.metadata.fromCache ? 'sincronizando…' : ('atualizado agora'));
+      renderAll({skipTable: !!editingId});
+    }, function(err){
+      setSync('readonly', 'Falha na sincronização', err && err.code || '');
+    });
+    document.getElementById('audBtn').style.display = '';
+    document.getElementById('estBtn').style.display = '';
+    dbApi.collection('auditoria').onSnapshot(function(snap){
+      AUD = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+      if(audOpen) renderAud();
+    }, function(){});
+    dbApi.collection('estoque_itens').onSnapshot(function(snap){
+      ITENS = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+      estCompute(); updateEstBtn(); estRefresh();
+    }, function(){});
+    dbApi.collection('estoque_mov').onSnapshot(function(snap){
+      MOVS = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+      estCompute(); updateEstBtn(); estRefresh();
+    }, function(){});
+    dbApi.collection('estoque_pedidos').onSnapshot(function(snap){
+      PEDS = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+      estRefresh();
+    }, function(){});
+    dbApi.collection('manutencoes').onSnapshot(function(snap){
+      MAINT = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+      renderAll({skipTable: !!editingId});
+    }, function(err){
+      showToast('Não foi possível carregar as manutenções ('+(err && err.code || 'erro')+').');
+    });
+  }
+
+  renderAll();
+  init();
+})();
+</script>
+
+<script>
+(function(){
+  var SENHA = '8056', TTL = 15*60*1000, MAXTRY = 5, LOCK_MS = 30000;
+  var unlockedAt = 0, tries = 0, blockedUntil = 0, pending = null, ov = null;
+  var ACT = {edit:1, 'delete':1, 'delete-confirm':1, save:1, 'maint-new-for':1};
+  var MACT = {add:1, 'new-for':1, 'mh-edit':1, 'mh-del':1, 'mh-del-yes':1, 'm-save':1, 'odo-edit':1, 'odo-save':1};
+  var EACT = {'i-new':1,'i-edit':1,'i-del':1,'e-new':1,'a-new':1,'mv-edit':1,'mv-del':1,'p-new':1,'p-edit':1,'p-del':1,'p-recv':1,'f-save':1,'i-del-yes':1,'mv-del-yes':1,'p-del-yes':1};
+  var ECOMMIT = {'f-save':1,'i-del-yes':1,'mv-del-yes':1,'p-del-yes':1};
+  var pass = false;
+  function isOpen(){ return unlockedAt && (Date.now()-unlockedAt) < TTL; }
+  function gated(el){
+    if(!el || !el.closest) return false;
+    if(el.closest('#addBtn,#newSave')) return true;
+    var a = el.closest('[data-act]'); if(a && ACT[a.getAttribute('data-act')]) return true;
+    var m = el.closest('[data-mact]'); if(m && MACT[m.getAttribute('data-mact')]) return true;
+    var e = el.closest('[data-eact]'); if(e && EACT[e.getAttribute('data-eact')]) return true;
+    return false;
+  }
+  // salvar e excluir pedem a senha toda vez; abrir formulários vale pela janela de 15 min
+  function commit(el){
+    if(!el || !el.closest) return false;
+    if(el.closest('#newSave')) return true;
+    var a = el.closest('[data-act]'); if(a){ var k = a.getAttribute('data-act'); if(k==='save' || k==='delete-confirm') return true; }
+    var m = el.closest('[data-mact]'); if(m){ var q = m.getAttribute('data-mact'); if(q==='m-save' || q==='mh-del-yes' || q==='odo-save') return true; }
+    var e = el.closest('[data-eact]'); if(e && ECOMMIT[e.getAttribute('data-eact')]) return true;
+    return false;
+  }
+  function close(){ if(ov && ov.parentNode) ov.parentNode.removeChild(ov); ov = null; pending = null; }
+  function ask(target){
+    pending = target;
+    if(ov) return;
+    ov = document.createElement('div'); ov.className = 'pw-ov';
+    ov.innerHTML = '<div class="pw-box" role="dialog" aria-modal="true" aria-labelledby="pwT">'+
+      '<h3 id="pwT">Edição protegida</h3><p>Digite a senha para continuar.</p>'+
+      '<input id="pwIn" type="password" inputmode="numeric" autocomplete="off" aria-label="Senha de edição">'+
+      '<div class="pw-msg" id="pwMsg" role="alert"></div>'+
+      '<div class="pw-btns"><button type="button" class="btn" id="pwNo">Cancelar</button>'+
+      '<button type="button" class="btn btn-primary" id="pwOk">Entrar</button></div></div>';
+    document.body.appendChild(ov);
+    var inp = ov.querySelector('#pwIn'), msg = ov.querySelector('#pwMsg');
+    function submit(){
+      var now = Date.now();
+      if(now < blockedUntil){ msg.textContent = 'Muitas tentativas. Aguarde '+Math.ceil((blockedUntil-now)/1000)+' s.'; return; }
+      if(inp.value === SENHA){
+        unlockedAt = Date.now(); tries = 0;
+        var t = pending; close();
+        if(t && t.isConnected) setTimeout(function(){ pass = true; t.click(); pass = false; }, 0);
+      } else {
+        tries++; inp.value = '';
+        if(tries >= MAXTRY){ blockedUntil = Date.now()+LOCK_MS; tries = 0; msg.textContent = 'Muitas tentativas. Aguarde 30 s.'; }
+        else msg.textContent = 'Senha incorreta.';
+        inp.focus();
+      }
+    }
+    ov.querySelector('#pwOk').addEventListener('click', submit);
+    ov.querySelector('#pwNo').addEventListener('click', close);
+    ov.addEventListener('mousedown', function(e){ if(e.target === ov) close(); });
+    ov.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ e.preventDefault(); submit(); }
+      else if(e.key === 'Escape'){ close(); }
+    });
+    inp.focus();
+  }
+  document.addEventListener('click', function(ev){
+    if(ov && ov.contains(ev.target)) return;
+    var el = ev.target;
+    if(!gated(el)) return;
+    if(pass){ pass = false; unlockedAt = Date.now(); return; }
+    if(!commit(el) && isOpen()){ unlockedAt = Date.now(); return; }
+    ev.stopPropagation(); ev.preventDefault();
+    ask(el.closest('button') || el);
+  }, true);
+  // Enter no campo de odômetro também salva: passa pela mesma senha
+  document.addEventListener('keydown', function(ev){
+    if(ev.key !== 'Enter' || !ev.target || ev.target.id !== 'odo-input') return;
+    ev.stopPropagation(); ev.preventDefault();
+    var b = document.querySelector('[data-mact="odo-save"]');
+    if(b) b.click();
+  }, true);
+})();
+</script>
+
+
+</body></html>
